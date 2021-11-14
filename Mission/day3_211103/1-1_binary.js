@@ -16,7 +16,7 @@ function game1(notation, t) {
 }
 
 console.log(game1(2, 4)); // ["0", "1", "1", "0", "1", "1", "1", "0", "0", "1", "0", "1", "1", "1", "0", "1", "1", "1"]
-console.log(game1(10, 2));
+console.log(game1(16, 2));
 
 // ⭐ 문제 2 : 길동이 차례 숫자 맞추기 + 문제 3 : n진수까지 되는 프로그램
 // 게임에 참가하는 인원 people
@@ -46,4 +46,31 @@ function game2(notation, t, people, order) {
 }
 
 console.log(game2(2, 4, 5, 2)); // 게임 참여 인원 5, 길동이 순서 2
-console.log(game2(10, 2, 5, 5));
+console.log(game2(16, 2, 5, 5));
+
+// 길동이가 말해야 하는 순서와 숫자를 함께 알려 주는 프로그램
+function game3(notation, t, people, order) {
+  let speak = [];
+  let answer = {};
+
+  const num = parseInt('1' + '0'.repeat(t - 1), notation);
+
+  for (let i = 0; i < num; i++) {
+    let arr = i.toString(notation).split('');
+    arr.forEach(v => speak.push(v));
+  }
+
+  let index = order - 1;
+
+  for (let i = 0; i < speak.length; i++) {
+    if (index <= speak.length && speak[index]) {
+      answer[`${index}번째`] = speak[index];
+      index += people;
+    }
+  }
+
+  return answer;
+}
+
+console.log(game3(2, 4, 5, 2));
+console.log(game3(16, 2, 5, 5));

@@ -22,9 +22,17 @@ const data = {
     vOffset: 100,
     alignment: 'center',
     onMouseUp: 'sun1.opacity = (sun1.opacity / 100) * 90;',
+    image: {
+      src: 'Images/Sun.png',
+      name: 'sun1',
+      test: 250,
+      test2: 250,
+      alignment: 'center',
+    },
   },
 };
 
+// JSON method 쓰는 이유
 function solution(data) {
   let answer = [];
   const obj = JSON.stringify(data);
@@ -35,3 +43,5 @@ function solution(data) {
 }
 
 console.log(solution(data));
+
+// Another solution : Recursion

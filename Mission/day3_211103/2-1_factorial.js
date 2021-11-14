@@ -9,7 +9,8 @@ function solution(n) {
     );
   }
 
-  // arr = [ [ 1 ], [ 1, 2 ], [ 1, 2, 3 ], [ 1, 2, 3, 4 ] ]
+  // arr = [ [ 1 ], [ 1, 1 ], [ 1, 1, 1 ], [ 1, 1, 1, 1 ] ] // fill(1)
+  // arr = [ [ 1 ], [ 1, 2 ], [ 1, 2, 3 ], [ 1, 2, 3, 4 ] ] // map 적용했을때
 
   let answer = [];
   for (let i = 0; i < arr.length; i++) {
@@ -28,3 +29,5 @@ function multiply(arr) {
 }
 
 console.log(solution(4)); // [ 1, 2, 6, 24 ]
+
+// 재귀함수의 활용

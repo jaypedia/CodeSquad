@@ -58,3 +58,5 @@ function getNumberOfArray(data) {
   return data.split(',').length;
 }
 console.log('elementsNum : ', getNumberOfArray(data2));
+
+// Stack approach

@@ -156,35 +156,33 @@ class GradeManagement {
     return mean.toFixed(2);
   }
 
-  // 2. 편차의 제곱의 합
-  // (편차(deviation) : 변량 - 평균, 각 변량들이 평균에서 얼마나 떨어져 있는지 알려주는 지표)
-  getSumofSquareOfDeviation() {
+  // 2. 편차
+  getDeviation() {
     const m = this.getMean();
-    let sumOfsquareOfDeviation = this.grade.reduce(
-      (a, b) => a + (b - m) ** 2,
-      0
-    );
+    const deviationArr = this.grade.map(v => (v - m).toFixed(2));
+    return deviationArr;
+  }
 
+  // 3. 편차의 제곱의 합
+  getSumOfSquareOfDeviation() {
+    const deviationArr = this.getDeviation();
+    let sumOfsquareOfDeviation = deviationArr.reduce((a, b) => a + b ** 2, 0);
     return sumOfsquareOfDeviation;
   }
 
-  // 3. 분산(variance) : 편차의 제곱의 평균 (편차의 합이 0이 되지 않도록 대안으로 편차를 제곱함)
+  // 4. 분산
   getVariance() {
-    const ssd = this.getSumofSquareOfDeviation();
-    const variance = ssd / this.grade.length;
+    const variance = this.getSumOfSquareOfDeviation() / this.grade.length;
     return variance;
   }
 
-  // 4. 표준편차(standard deviation) : 분산에 루트를 씌운 값
+  // 5. 표준편차
   getStandardDeviation() {
-    const v = this.getVariance();
-    const sd = Math.sqrt(v);
+    const sd = Math.sqrt(this.getVariance());
     return sd.toFixed(2);
   }
 
-  // 5. Z-Score : 평균이 0이고 표준편차가 1인 정규분포의 확률변수
-  // 평균값에서 표준편차의 몇 배 정도 떨어져 있다는 것을 평가하는 수치
-  // (점수 - 평균) / 표준편차
+  // 6. Z-Score
   getZScore(score) {
     const m = this.getMean();
     const sd = this.getStandardDeviation();
@@ -192,23 +190,27 @@ class GradeManagement {
     return z;
   }
 
-  // 6. 확률 구하기
+  // 7. 확률
   getPercentage(score) {
     let z = this.getZScore(score);
 
+    const getRow = z => {
+      return z.toString().slice(0, 3) * 10;
+    };
+
+    const getCol = z => {
+      return z.toString().slice(-1);
+    };
+
     if (z < 0) {
       z = Math.abs(z);
-      const row = +z.toString().slice(0, 3) * 10;
-      const col = z.toString().slice(-1);
-      return ((1 - SNDT[row][col]) * 100).toFixed(2);
+      return ((1 - SNDT[getRow(z)][getCol(z)]) * 100).toFixed(2);
     } else {
-      const row = +z.toString().slice(0, 3) * 10;
-      const col = z.toString().slice(-1);
-      return (SNDT[row][col] * 100).toFixed(2);
+      return (SNDT[getRow(z)][getCol(z)] * 100).toFixed(2);
     }
   }
 
-  // 7. 두 점수 사이의 확률 계산하기
+  // 8. 두 점수 사이에 속할 확률
   getPercentageBetweenScores(score1, score2) {
     return score1 < score2
       ? (this.getPercentage(score2) - this.getPercentage(score1)).toFixed(2)
@@ -218,8 +220,10 @@ class GradeManagement {
 
 const grades = new GradeManagement(studentsGrades);
 
-function manageGrade(grades) {
+function test(grades) {
+  console.log('************************* TEST ****************************');
   console.log(`# 학생들의 평균 점수 : ${grades.getMean()}점`);
+  console.log(`# 점수의 편차 : ${grades.getDeviation()}`);
   console.log(`# 점수의 표준편차 : ${grades.getStandardDeviation()}`);
   console.log(`# 70의 Z-Score : ${grades.getZScore(70)}`);
   console.log('***********************************************************');
@@ -240,6 +244,7 @@ function manageGrade(grades) {
       100
     )}%`
   );
+  console.log('***********************************************************');
 }
 
-console.log(manageGrade(grades));
+console.log(test(grades));

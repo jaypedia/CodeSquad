@@ -5,31 +5,47 @@ class GradeManagement {
     this.grade = grade;
   }
 
+  // 평균
   getMean() {
     const mean =
       this.grade.reduce((acc, cur) => acc + cur, 0) / this.grade.length;
     return mean.toFixed(2);
   }
 
-  // 표준편차(standard deviation) : 분산에 루트를 씌운 값
-  // 분산(variance) : 편차의 제곱의 평균 (편차의 합이 0이 되지 않도록 대안으로 편차를 제곱함)
-  // 편차(deviation) : (변량 - 평균), 변량은 집단의 원소들을 말함. 각 변량들이 평균에서 얼마나 떨어져 있는지를 알려주는 지표
-  getStandardDeviation() {
+  // 편차(deviation) : 변량 - 평균, 각 변량들이 평균에서 얼마나 떨어져 있는지 알려주는 지표
+  // 편차의 제곱의 합
+  getSumofSquareOfDeviation() {
     const m = this.getMean();
-    let squareOfDeviation = 0;
 
+    /*
     for (let i = 0; i < this.grade.length; i++) {
-      squareOfDeviation += (this.grade[i] - m) ** 2;
+      sumOfsquareOfDeviation += (this.grade[i] - m) ** 2;
     }
+    */
 
-    const variance = squareOfDeviation / this.grade.length;
-    const sd = Math.sqrt(variance);
+    let sumOfsquareOfDeviation = this.grade.reduce(
+      (a, b) => a + (b - m) ** 2,
+      0
+    );
 
+    return sumOfsquareOfDeviation;
+  }
+
+  // 분산(variance) : 편차의 제곱의 평균 (편차의 합이 0이 되지 않도록 대안으로 편차를 제곱함)
+  getVariance() {
+    const ssd = this.getSumofSquareOfDeviation();
+    const variance = ssd / this.grade.length;
+    return variance;
+  }
+
+  // 표준편차(standard deviation) : 분산에 루트를 씌운 값
+  getStandardDeviation() {
+    const v = this.getVariance();
+    const sd = Math.sqrt(v);
     return sd.toFixed(2);
   }
 
-  // Z-Score : 평균이 0이고 표준편차가 1인 정규분포의 확률변수
-  // 평균값에서 표준편차의 몇 배 정도 떨어져 있다는 것을 평가하는 수치
+  // Z-Score : 평균이 0이고 표준편차가 1인 정규분포의 확률변수, 평균값에서 표준편차의 몇 배 정도 떨어져 있다는 것을 평가하는 수치
   // Z-score를 가지고 표준정규분포표를 참조하여 비율을 구한다.
   getZScore(score1, score2) {
     const m = this.getMean();

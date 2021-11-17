@@ -15,7 +15,7 @@
   <body>
     <header>
       <p class="title">My Todo List</p>
-      <i class="fas fa-circle"></i>
+      <i class="fas fa-circle setting"></i>
     </header>
 
     <aside>
@@ -34,18 +34,17 @@
               type="text"
               class="new list"
               data-new-list-input
-              placeholder="new list"
+              placeholder="New list"
               aria-label="new list"
               required
             />
-            <button class="btn create" aria-label="create new list">
+            <button class="btn create aside" aria-label="create new list">
               <i class="fas fa-plus-circle"></i>
             </button>
           </form>
         </div>
         <div class="delete-list">
           <button class="btn delete" data-delete-list-button>
-            <i class="fas fa-trash-alt"></i>
             Delete list
           </button>
         </div>
@@ -54,27 +53,30 @@
 
     <main>
       <div class="info">
-        <p class="date">Nov 17</p>
-        <p class="day">Wednesday</p>
-        <p class="task-count" data-list-count>3 tasks remaining</p>
+        <p class="info__date">
+          <span class="month">Nov</span>
+          <span class="date">17</span>
+          <span class="day">Wednesday</span>
+        </p>
+        <p class="task-count" data-list-count>3</p>
       </div>
       <div class="todo-list">
         <!-- User Input -->
         <div class="task">
-          <input type="checkbox" />
-          <label>
+          <input type="checkbox" id="task1" />
+          <label for="task1">
             <span class="custom-checkbox">JavaScript</span>
           </label>
         </div>
-        <div class="task">
+        <div class="task" id="task2">
           <input type="checkbox" />
-          <label>
+          <label for="task2">
             <span class="custom-checkbox">CSS</span>
           </label>
         </div>
-        <div class="task">
+        <div class="task" id="task3">
           <input type="checkbox" />
-          <label>
+          <label for="task3">
             <span class="custom-checkbox">HTML</span>
           </label>
         </div>
@@ -86,18 +88,17 @@
               type="text"
               data-new-task-input
               class="new task"
-              placeholder="new task"
+              placeholder="New task"
               aria-label="new task"
               required
             />
-            <button class="btn create" aria-label="create new task">
+            <button class="btn create main" aria-label="create new task">
               <i class="fas fa-plus-circle"></i>
             </button>
           </form>
         </div>
         <div class="clear-completed-task">
           <button class="btn clear" data-clear-complete-tasks-button>
-            <i class="fas fa-broom"></i>
             Clear completed tasks
           </button>
         </div>

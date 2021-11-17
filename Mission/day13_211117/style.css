@@ -35,7 +35,7 @@
   --size-padding-small: 10px;
 
   /* Animation */
-  --animation-duration: 300ms;
+  --animation-duration: 150ms;
 }
 
 /* Universal tags */
@@ -261,4 +261,23 @@ input:focus::placeholder {
 
 .btn.clear {
   background-color: var(--color-light-purple);
+}
+
+/* Checkbox */
+[type='checkbox'] {
+  opacity: 0;
+  position: absolute;
+}
+
+.new.list {
+  width: 100%;
+}
+
+.task label::before {
+  display: inline-block;
+  content: '';
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  background-color: var(--color-purple);
 }

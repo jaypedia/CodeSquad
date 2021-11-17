@@ -1,0 +1,84 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200&family=Work+Sans:wght@300;400;500;600&display=swap');
+
+:root {
+  /* Color */
+  --color-white: #ffffff;
+  --color-light-white: #eeeeee;
+  --color-dark-white: #bdbdbd;
+  --color-light-purple: #b2b1e8;
+  --color-purple: #b2b1e8;
+  --color-dark-purple: #4d4ae8;
+  --color-dark-grey: #464444;
+  --color-grey: #616161;
+  --color-light-grey: #7c7979;
+  --color-black: #000000;
+
+  /* Font size */
+  --font-large: 36px;
+  --font-medium: 22px;
+  --font-small: 18px;
+  --font-micro: 14px;
+
+  /* Font weight */
+  --weight-bold: 700;
+  --weight-semi-bold: 600;
+  --weight-regular: 400;
+  --weight-thin: 100;
+
+  /* Letter Spacing */
+  --space-large: 4px;
+  --space-small: 2px;
+
+  /* Size */
+  --size-border-radius: 10px;
+
+  /* Animation */
+  --animation-duration: 300ms;
+}
+
+html {
+  width: 100%;
+  height: 100%;
+  background: url('./background.jpg') no-repeat center center fixed;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: 'Roboto Mono', monospace;
+}
+
+body {
+  width: 80%;
+  max-width: 1200px;
+  height: 70%;
+  background-color: var(--color-light-white);
+  margin: 0;
+  padding: 0;
+  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
+}
+
+header {
+  color: var(--color-white);
+  background-color: var(--color-dark-grey);
+  text-align: center;
+  height: 40px;
+  line-height: 40px;
+  font-size: var(--font-small);
+  font-weight: var(--weight-thin);
+  letter-spacing: var(--space-small);
+  position: relative;
+}
+
+p {
+  margin: 0;
+}
+
+.fa-circle {
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  color: var(--color-light-purple);
+}

@@ -20,11 +20,10 @@
 
     <aside>
       <div class="my-lists">
-        <ul class="task-list">
-          <!-- User Input -->
-          <li class="list-name active-list">Coding</li>
+        <ul class="task-list" data-lists>
+          <!-- <li class="list-name active-list">Coding</li>
           <li class="list-name">Grocery</li>
-          <li class="list-name">Books</li>
+          <li class="list-name">Books</li> -->
         </ul>
       </div>
       <div class="manage-list">
@@ -38,7 +37,11 @@
               aria-label="new list"
               required
             />
-            <button class="btn create aside" aria-label="create new list">
+            <button
+              class="btn create aside"
+              aria-label="create new list"
+              data-new-list-button
+            >
               <i class="fas fa-plus-circle"></i>
             </button>
           </form>
@@ -51,16 +54,16 @@
       </div>
     </aside>
 
-    <main>
+    <main data-main>
       <div class="info">
         <p class="info__date">
-          <span class="month">Nov</span>
-          <span class="date">17</span>
-          <span class="day">Wednesday</span>
+          <span class="month"></span>
+          <span class="date"></span>
+          <span class="day"></span>
         </p>
-        <p class="task-count" data-list-count>3</p>
+        <p class="task-count" data-list-count>3 tasks remaining</p>
       </div>
-      <div class="todo-list">
+      <div class="todo-list" data-todo-list>
         <!-- User Input -->
         <div class="task">
           <input type="checkbox" id="task1" />
@@ -95,7 +98,11 @@
               aria-label="new task"
               required
             />
-            <button class="btn create main" aria-label="create new task">
+            <button
+              class="btn create main"
+              aria-label="create new task"
+              data-new-task-button
+            >
               <i class="fas fa-plus-circle"></i>
             </button>
           </form>

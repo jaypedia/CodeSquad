@@ -61,31 +61,16 @@
           <span class="date"></span>
           <span class="day"></span>
         </p>
-        <p class="task-count" data-list-count>3 tasks remaining</p>
+        <p class="task-count" data-task-count>3 tasks remaining</p>
       </div>
       <div class="todo-list" data-todo-list>
-        <!-- User Input -->
-        <div class="task">
+        <!-- <div class="task">
           <input type="checkbox" id="task1" />
           <label for="task1">
             <span class="custom-checkbox"></span>
             JavaScript
           </label>
-        </div>
-        <div class="task">
-          <input type="checkbox" id="task2" />
-          <label for="task2">
-            <span class="custom-checkbox"></span>
-            CSS
-          </label>
-        </div>
-        <div class="task">
-          <input type="checkbox" id="task3" />
-          <label for="task3">
-            <span class="custom-checkbox"></span>
-            HTML
-          </label>
-        </div>
+        </div> -->
       </div>
       <div class="manage-task">
         <div class="new-task-creator">
@@ -114,5 +99,14 @@
         </div>
       </div>
     </main>
+
+    <template id="task-template">
+      <div class="task">
+        <input type="checkbox" />
+        <label>
+          <span class="custom-checkbox"></span>
+        </label>
+      </div>
+    </template>
   </body>
 </html>

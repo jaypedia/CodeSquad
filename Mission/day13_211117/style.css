@@ -335,3 +335,16 @@ input:focus::placeholder {
   transform: scale(1);
   transform-origin: left;
 }
+
+.creation-time {
+  font-size: var(--font-micro);
+  margin-right: 10px;
+  color: var(--color-dark-purple);
+  font-weight: var(--weight-bold);
+}
+
+.time {
+  font-size: var(--font-micro);
+  color: var(--color-dark-purple);
+  font-weight: var(--weight-bold);
+}

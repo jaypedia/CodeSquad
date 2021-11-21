@@ -147,7 +147,7 @@ function createList(newListName) {
   };
 }
 
-function selectTaskHandler(e) {
+function selectListHandler(e) {
   if (e.target.tagName === 'LI') {
     selectedListId = e.target.dataset.listId;
   }
@@ -198,9 +198,11 @@ function clearTaskHander() {
 }
 
 $newListForm.addEventListener('submit', addListHandler);
+$newListBtn.addEventListener('click', addListHandler);
 $newTaskForm.addEventListener('submit', addTaskHandler);
 $newTaskBtn.addEventListener('click', addTaskHandler);
-$taskList.addEventListener('click', selectTaskHandler);
+
+$taskList.addEventListener('click', selectListHandler);
 $deleteListBtn.addEventListener('click', deleteListHandler);
 $todoList.addEventListener('click', taskCountHandler);
 $clearTaskBtn.addEventListener('click', clearTaskHander);

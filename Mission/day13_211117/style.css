@@ -125,7 +125,7 @@ aside .task-list li {
   padding-bottom: var(--size-padding-small);
   cursor: pointer;
   font-size: var(--font-medium);
-  transition: all var(--animation-duration) ease;
+  transition: all var(--animation-duration) ease-in;
 }
 
 aside .task-list li:hover {
@@ -287,14 +287,14 @@ input:focus::placeholder {
   margin-right: 10px;
   border-radius: 50%;
   border: 2px solid var(--color-black);
-  transform: scale(1);
+  /* transform: scale(1); */
   transition: transform var(--animation-duration) ease-in-out;
 }
 
-.task:hover .custom-checkbox,
+.task:hover label .custom-checkbox,
 [type='checkbox']:focus + label .custom-checkbox {
   transform: scale(1.2);
-  border-color: var(--color-dark-greypurple);
+  border-color: var(--color-dark-purple);
 }
 
 [type='checkbox']:checked + label .custom-checkbox {
@@ -308,7 +308,7 @@ input:focus::placeholder {
 }
 
 .task {
-  position: relative;
+  /* position: relative; */
   margin-bottom: 5px;
 }
 
@@ -321,17 +321,17 @@ input:focus::placeholder {
 .task label::after {
   content: '';
   position: absolute;
-  left: 20px;
+  left: 25px;
   right: 0;
   top: 50%;
-  height: 3px;
-  background: currentColor;
-  transform: scaleX(0);
+  height: 2.5px;
+  background: var(--color-black);
+  transform: scale(0);
   transition: transform var(--animation-duration) ease-in-out;
   transform-origin: right;
 }
 
 [type='checkbox']:checked + label::after {
-  transform: scaleX(1);
+  transform: scale(1);
   transform-origin: left;
 }

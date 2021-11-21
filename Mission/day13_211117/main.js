@@ -20,6 +20,7 @@ const $clearTaskBtn = document.querySelector(
 const $month = document.querySelector('.month');
 const $date = document.querySelector('.date');
 const $day = document.querySelector('.day');
+const $time = document.querySelector('.time');
 
 // Local Storage
 const LOCAL_STORAGE_LIST_KEY = 'task.lists';
@@ -27,7 +28,7 @@ const LOCAL_STORAGE_SELECTED_LIST_ID_KEY = 'selected.selectedListId';
 let lists = JSON.parse(localStorage.getItem(LOCAL_STORAGE_LIST_KEY)) || [];
 let selectedListId = localStorage.getItem(LOCAL_STORAGE_SELECTED_LIST_ID_KEY);
 
-function paintDate() {
+function displayDateTime() {
   const today = new Date();
   const dayNames = [
     'Sunday',
@@ -55,9 +56,15 @@ function paintDate() {
   $month.textContent = monthNames[today.getMonth()];
   $date.textContent = today.getDate();
   $day.textContent = dayNames[today.getDay()];
+
+  const hour = today.getHours().toString().padStart(2, '0');
+  const minute = today.getMinutes().toString().padStart(2, '0');
+  const second = today.getSeconds().toString().padStart(2, '0');
+  $time.innerHTML = `${hour}:${minute}:${second}`;
 }
 
-paintDate();
+displayDateTime();
+setInterval(displayDateTime, 1000);
 
 function render() {
   clearElement($taskList);
@@ -76,25 +83,10 @@ function render() {
   }
 }
 
-function renderTask(selectedList) {
-  selectedList.tasks.forEach(task => {
-    const taskElement = document.importNode($taskTemplate.content, true);
-    const checkbox = taskElement.querySelector('input');
-    const label = taskElement.querySelector('label');
-    checkbox.id = task.id;
-    checkbox.checked = task.complete;
-    label.htmlFor = task.id;
-    label.append(task.name);
-    $todoList.appendChild(taskElement);
-  });
-}
-
-function renderTaskCount(selectedList) {
-  const incompleteTasksCount = selectedList.tasks.filter(
-    task => task.complete === false
-  ).length;
-  const taskString = incompleteTasksCount === 1 ? 'task' : 'tasks';
-  $taskCount.textContent = `${incompleteTasksCount} ${taskString} remaining`;
+function clearElement(element) {
+  while (element.firstChild) {
+    element.removeChild(element.firstChild);
+  }
 }
 
 function renderList() {
@@ -110,6 +102,27 @@ function renderList() {
   });
 }
 
+function renderTaskCount(selectedList) {
+  const incompleteTasksCount = selectedList.tasks.filter(
+    task => task.complete === false
+  ).length;
+  const taskString = incompleteTasksCount === 1 ? 'task' : 'tasks';
+  $taskCount.textContent = `${incompleteTasksCount} ${taskString} remaining`;
+}
+
+function renderTask(selectedList) {
+  selectedList.tasks.forEach(task => {
+    const taskElement = document.importNode($taskTemplate.content, true);
+    const $checkbox = taskElement.querySelector('input');
+    const $label = taskElement.querySelector('label');
+    $checkbox.id = task.id;
+    $checkbox.checked = task.complete;
+    $label.htmlFor = task.id;
+    $label.append(task.name);
+    $todoList.appendChild(taskElement);
+  });
+}
+
 function save() {
   localStorage.setItem(LOCAL_STORAGE_LIST_KEY, JSON.stringify(lists));
   localStorage.setItem(LOCAL_STORAGE_SELECTED_LIST_ID_KEY, selectedListId);
@@ -122,10 +135,16 @@ function saveAndRender() {
 
 render();
 
-function clearElement(element) {
-  while (element.firstChild) {
-    element.removeChild(element.firstChild);
-  }
+function createList(newListName) {
+  return {
+    id: Date.now(),
+    name: newListName,
+    tasks: [],
+  };
+}
+
+function createTask(newTaskName) {
+  return { id: Date.now(), name: newTaskName, complete: false };
 }
 
 function addListHandler(e) {
@@ -137,14 +156,6 @@ function addListHandler(e) {
   lists.push(list);
   saveAndRender();
   $newListInput.focus();
-}
-
-function createList(newListName) {
-  return {
-    id: Date.now(),
-    name: newListName,
-    tasks: [],
-  };
 }
 
 function selectListHandler(e) {
@@ -164,10 +175,6 @@ function addTaskHandler(e) {
   selectedList.tasks.push(task);
   saveAndRender();
   $newTaskInput.focus();
-}
-
-function createTask(newTaskName) {
-  return { id: Date.now(), name: newTaskName, complete: false };
 }
 
 function deleteListHandler() {

@@ -115,10 +115,16 @@ function renderTask(selectedList) {
     const taskElement = document.importNode($taskTemplate.content, true);
     const $checkbox = taskElement.querySelector('input');
     const $label = taskElement.querySelector('label');
+    const $deleteTaskBtn = taskElement.querySelector(
+      '[data-delete-task-button]'
+    );
     $checkbox.id = task.id;
     $checkbox.checked = task.complete;
     $label.htmlFor = task.id;
     $label.append(task.name);
+    $deleteTaskBtn.id = task.id;
+    $deleteTaskBtn.addEventListener('click', deleteTaskHandler);
+
     $todoList.appendChild(taskElement);
   });
 }
@@ -200,6 +206,14 @@ function clearTaskHander() {
   const selectedList = lists.find(list => list.id === +selectedListId);
   selectedList.tasks = selectedList.tasks.filter(
     task => task.complete === false
+  );
+  saveAndRender();
+}
+
+function deleteTaskHandler(e) {
+  const selectedList = lists.find(list => list.id === +selectedListId);
+  selectedList.tasks = selectedList.tasks.filter(
+    task => task.id !== +e.target.id
   );
   saveAndRender();
 }

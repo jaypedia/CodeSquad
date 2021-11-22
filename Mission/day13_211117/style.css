@@ -8,6 +8,7 @@
   --color-light-purple: #b2b1e8;
   --color-purple: #b2b1e8;
   --color-dark-purple: #4d4ae8;
+  --color-pink: #fea5bb;
   --color-dark-grey: #464444;
   --color-grey: #616161;
   --color-light-grey: #7c7979;
@@ -347,4 +348,25 @@ input:focus::placeholder {
   font-size: var(--font-micro);
   color: var(--color-dark-purple);
   font-weight: var(--weight-bold);
+}
+
+.icon {
+  cursor: pointer;
+  transition: all var(--animation-duration) ease;
+}
+
+.modify.icon {
+  color: var(--color-pink);
+}
+
+.modify.icon:hover {
+  color: var(--color-white);
+}
+
+.delete.icon {
+  color: var(--color-grey);
+}
+
+.delete.icon:hover {
+  color: var(--color-dark-white);
 }

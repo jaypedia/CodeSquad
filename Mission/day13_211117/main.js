@@ -6,6 +6,7 @@ const $newListBtn = document.querySelector('[data-new-list-button]');
 const $deleteListBtn = document.querySelector('[data-delete-list-button]');
 
 // Task
+const $main = document.querySelector('[data-main]');
 const $taskCount = document.querySelector('[data-task-count]');
 const $todoList = document.querySelector('[data-todo-list]');
 const $newTaskForm = document.querySelector('[data-new-task-form]');
@@ -16,7 +17,7 @@ const $clearTaskBtn = document.querySelector(
   '[data-clear-complete-tasks-button]'
 );
 
-// Date
+// Date & Time
 const $month = document.querySelector('.month');
 const $date = document.querySelector('.date');
 const $day = document.querySelector('.day');
@@ -115,15 +116,49 @@ function renderTask(selectedList) {
     const taskElement = document.importNode($taskTemplate.content, true);
     const $checkbox = taskElement.querySelector('input');
     const $label = taskElement.querySelector('label');
+    const $taskName = $label.querySelector('.task-name');
+
     const $deleteTaskBtn = taskElement.querySelector(
       '[data-delete-task-button]'
     );
+    const $modifyTaskBtn = taskElement.querySelector(
+      '[data-modify-task-button]'
+    );
+    const $modifyForm = taskElement.querySelector('[data-modify-form]');
+    const $modifyTaskInput = taskElement.querySelector(
+      '[data-modify-task-input]'
+    );
+    let newInput = null;
+
     $checkbox.id = task.id;
     $checkbox.checked = task.complete;
     $label.htmlFor = task.id;
-    $label.append(task.name);
+
+    $taskName.innerHTML = task.name;
     $deleteTaskBtn.id = task.id;
+    $modifyTaskBtn.id = task.id;
+    $modifyForm.id = task.id;
+
+    $modifyForm.classList = 'hidden';
+
     $deleteTaskBtn.addEventListener('click', deleteTaskHandler);
+
+    $modifyTaskBtn.addEventListener('click', e => {
+      if (e.target.id === $modifyForm.id) {
+        $modifyForm.classList.toggle('hidden');
+        $taskName.classList.toggle('hidden');
+        $deleteTaskBtn.classList.toggle('hidden');
+        $modifyTaskInput.value = task.name;
+
+        if ($modifyTaskInput.value !== newInput) {
+          modifyTaskHandler(newInput);
+        }
+      }
+
+      $modifyTaskInput.addEventListener('input', e => {
+        newInput = e.target.value;
+      });
+    });
 
     $todoList.appendChild(taskElement);
   });
@@ -191,7 +226,7 @@ function deleteListHandler() {
 }
 
 function taskCountHandler(e) {
-  if (e.target.tagName === 'INPUT') {
+  if (e.target.tagName === 'INPUT' && e.target.type === 'checkbox') {
     const selectedList = lists.find(list => list.id === +selectedListId);
     const checkedTask = selectedList.tasks.find(
       task => task.id === +e.target.id
@@ -216,6 +251,13 @@ function deleteTaskHandler(e) {
     task => task.id !== +e.target.id
   );
   saveAndRender();
+}
+
+function modifyTaskHandler(newInput) {
+  console.log('ModifyTaskHandler', newInput);
+  // const selectedList = lists.find(list => list.id === +selectedListId);
+  // 수정된 input을 tasks 배열에 저장 후 saveAndRender() 호출
+  // saveAndRender();
 }
 
 $newListForm.addEventListener('submit', addListHandler);

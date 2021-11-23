@@ -117,7 +117,6 @@ function renderTask(selectedList) {
     const $checkbox = taskElement.querySelector('input');
     const $label = taskElement.querySelector('label');
     const $taskName = $label.querySelector('.task-name');
-
     const $deleteTaskBtn = taskElement.querySelector(
       '[data-delete-task-button]'
     );
@@ -128,7 +127,8 @@ function renderTask(selectedList) {
     const $modifyTaskInput = taskElement.querySelector(
       '[data-modify-task-input]'
     );
-    let newInput = null;
+    // const $creationTime = taskElement.querySelector('[data-creation-time]');
+    let newInput = task.name;
 
     $checkbox.id = task.id;
     $checkbox.checked = task.complete;
@@ -144,20 +144,55 @@ function renderTask(selectedList) {
     $deleteTaskBtn.addEventListener('click', deleteTaskHandler);
 
     $modifyTaskBtn.addEventListener('click', e => {
-      if (e.target.id === $modifyForm.id) {
-        $modifyForm.classList.toggle('hidden');
-        $taskName.classList.toggle('hidden');
-        $deleteTaskBtn.classList.toggle('hidden');
-        $modifyTaskInput.value = task.name;
+      // if (e.target.id === $modifyForm.id) {
+      //   $modifyForm.classList.remove('hidden');
+      //   $taskName.classList.add('hidden');
+      //   $modifyTaskInput.value = task.name;
 
-        if ($modifyTaskInput.value !== newInput) {
-          modifyTaskHandler(e, newInput);
-        }
+      //   if ($modifyTaskInput.value !== newInput) {
+      //     modifyTaskHandler(e, newInput);
+      //   }
+      // }
+
+      // edit button을 눌렀을 경우
+      // Optional Chaining 활용 : ?. 앞의 요소가 존재할 때만(null이 아닐 때만) 그 다음을 실행
+      if (e.target.closest('.edit-button')?.className.includes('edit-button')) {
+        // 함수로 만들기
+        $modifyForm.classList.remove('hidden');
+        $taskName.classList.add('hidden');
+        $modifyTaskInput.value = task.name;
+        $modifyTaskBtn.classList.remove('edit-button');
+        $modifyTaskBtn.classList.add('edit-finish-button');
+        return;
       }
 
-      $modifyTaskInput.addEventListener('input', e => {
-        newInput = e.target.value;
-      });
+      // edit finish button을 눌렀을 경우
+      if (
+        e.target
+          .closest('.edit-finish-button')
+          .className.includes('edit-finish-button')
+      ) {
+        // 함수로 만들기
+        $modifyForm.classList.add('hidden');
+        $taskName.classList.remove('hidden');
+        $modifyTaskBtn.classList.add('edit-button');
+        $modifyTaskBtn.classList.remove('edit-finish-button');
+        modifyTaskHandler(e, newInput);
+        render();
+      }
+
+      // 기존 중첩된 EventListener 코드
+      // $modifyTaskBtn.addEventListener('click', e => {
+      //   if (e.target.id === $modifyForm.id) {
+      //     $modifyForm.classList.add('hidden');
+      //     $taskName.classList.remove('hidden');
+      //     render();
+      //   }
+      // });
+    });
+
+    $modifyTaskInput.addEventListener('input', e => {
+      newInput = e.target.value;
     });
 
     $todoList.appendChild(taskElement);
@@ -254,23 +289,13 @@ function deleteTaskHandler(e) {
 }
 
 function modifyTaskHandler(e, newInput) {
-  console.log('ModifyTaskHandler', newInput);
   const selectedList = lists.find(list => list.id === +selectedListId);
-
-  // ing
-  selectedList.tasks = selectedList.tasks.map(task => {
+  selectedList.tasks.map(task => {
     if (task.id === +e.target.id) {
       task.name = newInput;
+      save();
     }
-    console.log(task);
-    console.log(task.id);
-    console.log(e.target.id);
   });
-
-  console.log('@@@After', selectedList.tasks);
-
-  // 수정된 input을 tasks 배열에 저장 후 saveAndRender() 호출
-  // saveAndRender();
 }
 
 $newListForm.addEventListener('submit', addListHandler);

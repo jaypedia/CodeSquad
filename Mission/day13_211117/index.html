@@ -102,13 +102,19 @@
     </main>
 
     <template id="task-template">
-      <div class="task">
-        <input type="checkbox" />
-        <label>
+      <div class="task" data-template-task>
+        <input type="checkbox" data-input-checkbox />
+        <label data-label>
           <span class="custom-checkbox"></span>
-          <span class="creation-time">[00:00]</span>
+          <span class="creation-time" data-creation-time>[00:00]</span>
+          <span class="task-name" data-task-name></span>
         </label>
-        <span class="modify icon"><i class="fas fa-feather-alt"></i></span>
+        <form data-modify-form>
+          <input type="text" data-modify-task-input />
+        </form>
+        <span class="modify icon"
+          ><i class="fas fa-feather-alt" data-modify-task-button></i
+        ></span>
         <span class="delete icon"
           ><i class="fas fa-trash-alt" data-delete-task-button></i
         ></span>

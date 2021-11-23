@@ -311,6 +311,7 @@ input:focus::placeholder {
 .task {
   /* position: relative; */
   margin-bottom: 5px;
+  display: flex;
 }
 
 .task label {
@@ -357,6 +358,8 @@ input:focus::placeholder {
 
 .modify.icon {
   color: var(--color-pink);
+  margin-left: 10px;
+  margin-right: 10px;
 }
 
 .modify.icon:hover {
@@ -364,9 +367,13 @@ input:focus::placeholder {
 }
 
 .delete.icon {
-  color: var(--color-grey);
+  color: var(--color-dark-white);
 }
 
 .delete.icon:hover {
-  color: var(--color-dark-white);
+  color: var(--color-light-grey);
+}
+
+.hidden {
+  display: none;
 }

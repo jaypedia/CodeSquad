@@ -151,7 +151,7 @@ function renderTask(selectedList) {
         $modifyTaskInput.value = task.name;
 
         if ($modifyTaskInput.value !== newInput) {
-          modifyTaskHandler(newInput);
+          modifyTaskHandler(e, newInput);
         }
       }
 
@@ -253,9 +253,22 @@ function deleteTaskHandler(e) {
   saveAndRender();
 }
 
-function modifyTaskHandler(newInput) {
+function modifyTaskHandler(e, newInput) {
   console.log('ModifyTaskHandler', newInput);
-  // const selectedList = lists.find(list => list.id === +selectedListId);
+  const selectedList = lists.find(list => list.id === +selectedListId);
+
+  // ing
+  selectedList.tasks = selectedList.tasks.map(task => {
+    if (task.id === +e.target.id) {
+      task.name = newInput;
+    }
+    console.log(task);
+    console.log(task.id);
+    console.log(e.target.id);
+  });
+
+  console.log('@@@After', selectedList.tasks);
+
   // 수정된 input을 tasks 배열에 저장 후 saveAndRender() 호출
   // saveAndRender();
 }

@@ -1,0 +1,36 @@
+body {
+  display: flex;
+  font-size: 30px;
+  font-family: sans-serif;
+}
+
+ul {
+  padding-left: 0px;
+}
+
+li {
+  list-style: none;
+  background-color: white;
+  padding: 5px;
+  border-radius: 20px;
+  margin: 10px;
+  text-align: center;
+}
+
+.list-container {
+  background-color: #ffb900;
+  border-radius: 20px;
+}
+
+.list {
+  background-color: #2b32b2;
+  color: white;
+  width: 350px;
+  padding: 20px;
+  text-align: center;
+  border-radius: 20px;
+}
+
+.invisible {
+  display: none;
+}

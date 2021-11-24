@@ -2,10 +2,13 @@ body {
   display: flex;
   font-size: 30px;
   font-family: sans-serif;
+  transition: all 250ms ease;
 }
 
 ul {
   padding-left: 0px;
+  padding: 20px;
+  margin: 0;
 }
 
 li {
@@ -15,6 +18,10 @@ li {
   border-radius: 20px;
   margin: 10px;
   text-align: center;
+}
+
+li:hover::after {
+  content: '😋';
 }
 
 .list-container {

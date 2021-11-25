@@ -23,5 +23,8 @@
 
 - 코드 개선 : 리팩토링과 학습 정리
 - OOP with ES Classes
+- Smart Drop Down Menu
 
 ### Week 5
+
+- Final project

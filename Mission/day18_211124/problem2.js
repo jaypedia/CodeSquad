@@ -61,17 +61,27 @@ function listSetup(element) {
   }
 
   let timer;
-  $li.forEach(li => {
-    li.addEventListener('mousemove', e => {
-      if (!timer) {
-        timer = setTimeout(() => {
-          timer = null;
-          const fruit = e.target.textContent;
-          console.log(fruit, countFunc(fruit));
-          displayFruitsCount(fruit);
-        }, 500);
-      }
-    });
+  // $li.forEach(li => {
+  //   li.addEventListener('mousemove', e => {
+  //     if (!timer) {
+  //       timer = setTimeout(() => {
+  //         timer = null;
+  //         const fruit = e.target.textContent;
+  //         displayFruitsCount(fruit);
+  //       }, 500);
+  //     }
+  //   });
+  // });
+
+  // Event Delegation
+  $ul.addEventListener('mousemove', e => {
+    if (e.target.tagName === 'LI' && !timer) {
+      timer = setTimeout(() => {
+        timer = null;
+        const fruit = e.target.textContent;
+        displayFruitsCount(fruit);
+      }, 500);
+    }
   });
 
   function displayFruitsCount(fruit) {

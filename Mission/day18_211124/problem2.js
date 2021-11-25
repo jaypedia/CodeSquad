@@ -19,31 +19,7 @@ function listSetup(element) {
     }, 500);
   };
 
-  const fruitCount = {
-    grape: 0,
-    apple: 0,
-    orange: 0,
-    banana: 0,
-    kiwi: 0,
-    strawberry: 0,
-  };
-
-  function countFunc(fruit) {
-    switch (fruit) {
-      case 'grape':
-        return (fruitCount.grape += 1);
-      case 'apple':
-        return (fruitCount.apple += 1);
-      case 'orange':
-        return (fruitCount.orange += 1);
-      case 'banana':
-        return (fruitCount.banana += 1);
-      case 'kiwi':
-        return (fruitCount.kiwi += 1);
-      case 'strawberry':
-        return (fruitCount.strawberry += 1);
-    }
-  }
+  const fruitCounter = {};
 
   let timer;
   $ul.addEventListener('mousemove', e => {
@@ -51,7 +27,6 @@ function listSetup(element) {
       timer = setTimeout(() => {
         timer = null;
         const fruit = e.target.textContent;
-        countFunc(fruit);
         displayFruitsCount(fruit);
       }, 500);
     }
@@ -61,11 +36,13 @@ function listSetup(element) {
     const myFruit = $fruitCount.querySelector(`.${fruit}`);
 
     if (myFruit) {
-      myFruit.innerHTML = `${fruit} : ${fruitCount[fruit]}`;
+      fruitCounter[fruit]++;
+      myFruit.innerHTML = `${fruit} : ${fruitCounter[fruit]}`;
     } else {
+      fruitCounter[fruit] = 1;
       const newFruit = document.createElement('li');
       newFruit.classList.add(fruit);
-      newFruit.innerHTML = `${fruit} : ${fruitCount[fruit]}`;
+      newFruit.innerHTML = `${fruit} : ${fruitCounter[fruit]}`;
       $fruitCount.appendChild(newFruit);
     }
   }

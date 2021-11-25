@@ -1,8 +1,16 @@
 body {
-  display: flex;
   font-size: 30px;
-  font-family: sans-serif;
+  font-family: Verdana;
   transition: all 250ms ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+header {
+  font-size: 3rem;
+  text-align: center;
+  padding: 20px;
 }
 
 ul {
@@ -20,7 +28,7 @@ li {
   text-align: center;
 }
 
-li:hover::after {
+.fruits li:hover::after {
   content: '😋';
 }
 

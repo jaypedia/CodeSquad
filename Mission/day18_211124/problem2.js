@@ -1,10 +1,3 @@
-/*
-문제 2. 마우스 이동정보 기록
-* 리스트 안에서 마우스를 이동할때마다 그 횟수를 기록한다.
-* mousemove이벤트가 발생할때마다 기록하지 않고, 500ms 마다 한 번씩만 기록된다.
-* 기록정보는 마우스가 움직일때마다 계속 업데이트 된다.
-*/
-
 const $listContainer = document.querySelector('.list-container');
 const $list = document.querySelector('.list');
 const $ul = document.querySelector('ul');
@@ -38,26 +31,18 @@ function listSetup(element) {
   function countFunc(fruit) {
     switch (fruit) {
       case 'grape':
-        fruitCount.grape += 1;
-        break;
+        return (fruitCount.grape += 1);
       case 'apple':
-        fruitCount.apple += 1;
-        break;
+        return (fruitCount.apple += 1);
       case 'orange':
-        fruitCount.orange += 1;
-        break;
+        return (fruitCount.orange += 1);
       case 'banana':
-        fruitCount.banana += 1;
-        break;
+        return (fruitCount.banana += 1);
       case 'kiwi':
-        fruitCount.kiwi += 1;
-        break;
+        return (fruitCount.kiwi += 1);
       case 'strawberry':
-        fruitCount.strawberry += 1;
-        break;
+        return (fruitCount.strawberry += 1);
     }
-
-    return fruitCount[fruit];
   }
 
   let timer;

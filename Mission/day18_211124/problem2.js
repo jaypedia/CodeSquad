@@ -57,28 +57,16 @@ function listSetup(element) {
         break;
     }
 
-    return fruitCount[`${fruit}`];
+    return fruitCount[fruit];
   }
 
   let timer;
-  // $li.forEach(li => {
-  //   li.addEventListener('mousemove', e => {
-  //     if (!timer) {
-  //       timer = setTimeout(() => {
-  //         timer = null;
-  //         const fruit = e.target.textContent;
-  //         displayFruitsCount(fruit);
-  //       }, 500);
-  //     }
-  //   });
-  // });
-
-  // Event Delegation
   $ul.addEventListener('mousemove', e => {
     if (e.target.tagName === 'LI' && !timer) {
       timer = setTimeout(() => {
         timer = null;
         const fruit = e.target.textContent;
+        countFunc(fruit);
         displayFruitsCount(fruit);
       }, 500);
     }
@@ -92,7 +80,7 @@ function listSetup(element) {
     const $banana = document.querySelector('.banana');
     const $strawberry = document.querySelector('.strawberry');
 
-    const string = `${fruit} ${fruitCount[`${fruit}`]}`;
+    const string = `${fruit} ${fruitCount[fruit]}`;
 
     if (fruit) {
       if ($apple.className.includes(fruit)) {

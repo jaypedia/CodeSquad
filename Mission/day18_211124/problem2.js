@@ -12,7 +12,7 @@ const $li = document.querySelectorAll('.fruits li');
 const $fruitCount = document.querySelector('.fruit-count');
 
 function listSetup(element) {
-  let timeout = null;
+  let timeout;
   element.onmouseenter = function () {
     timeout = setTimeout(() => {
       $ul.classList.remove('invisible');
@@ -73,29 +73,15 @@ function listSetup(element) {
   });
 
   function displayFruitsCount(fruit) {
-    const $apple = document.querySelector('.apple');
-    const $grape = document.querySelector('.grape');
-    const $orange = document.querySelector('.orange');
-    const $kiwi = document.querySelector('.kiwi');
-    const $banana = document.querySelector('.banana');
-    const $strawberry = document.querySelector('.strawberry');
+    const myFruit = $fruitCount.querySelector(`.${fruit}`);
 
-    const string = `${fruit} ${fruitCount[fruit]}`;
-
-    if (fruit) {
-      if ($apple.className.includes(fruit)) {
-        $apple.innerHTML = string;
-      } else if ($grape.className.includes(fruit)) {
-        $grape.innerHTML = string;
-      } else if ($strawberry.className.includes(fruit)) {
-        $strawberry.innerHTML = string;
-      } else if ($orange.className.includes(fruit)) {
-        $orange.innerHTML = string;
-      } else if ($kiwi.className.includes(fruit)) {
-        $kiwi.innerHTML = string;
-      } else if ($banana.className.includes(fruit)) {
-        $banana.innerHTML = string;
-      }
+    if (myFruit) {
+      myFruit.innerHTML = `${fruit} : ${fruitCount[fruit]}`;
+    } else {
+      const newFruit = document.createElement('li');
+      newFruit.classList.add(fruit);
+      newFruit.innerHTML = `${fruit} : ${fruitCount[fruit]}`;
+      $fruitCount.appendChild(newFruit);
     }
   }
 }

@@ -72,6 +72,7 @@ function render() {
   renderList();
 
   const selectedList = lists.find(list => list.id === +selectedListId);
+
   if (selectedListId) {
     $taskCount.style.display = '';
     $todoList.style.display = '';
@@ -127,7 +128,6 @@ function renderTask(selectedList) {
     const $modifyTaskInput = taskElement.querySelector(
       '[data-modify-task-input]'
     );
-    // const $creationTime = taskElement.querySelector('[data-creation-time]');
     let newInput = task.name;
 
     $checkbox.id = task.id;
@@ -141,54 +141,37 @@ function renderTask(selectedList) {
 
     $modifyForm.classList = 'hidden';
 
+    function editHandler() {
+      $modifyForm.classList.remove('hidden');
+      $taskName.classList.add('hidden');
+      $modifyTaskInput.value = task.name;
+      $modifyTaskBtn.classList.remove('edit-button');
+      $modifyTaskBtn.classList.add('edit-finish-button');
+      return;
+    }
+
+    function editFinishHandler(e) {
+      $modifyForm.classList.add('hidden');
+      $taskName.classList.remove('hidden');
+      $modifyTaskBtn.classList.add('edit-button');
+      $modifyTaskBtn.classList.remove('edit-finish-button');
+      modifyTaskHandler(e, newInput);
+      render();
+    }
+
     $deleteTaskBtn.addEventListener('click', deleteTaskHandler);
 
     $modifyTaskBtn.addEventListener('click', e => {
-      // if (e.target.id === $modifyForm.id) {
-      //   $modifyForm.classList.remove('hidden');
-      //   $taskName.classList.add('hidden');
-      //   $modifyTaskInput.value = task.name;
-
-      //   if ($modifyTaskInput.value !== newInput) {
-      //     modifyTaskHandler(e, newInput);
-      //   }
-      // }
-
-      // edit button을 눌렀을 경우
-      // Optional Chaining 활용 : ?. 앞의 요소가 존재할 때만(null이 아닐 때만) 그 다음을 실행
-      if (e.target.closest('.edit-button')?.className.includes('edit-button')) {
-        // 함수로 만들기
-        $modifyForm.classList.remove('hidden');
-        $taskName.classList.add('hidden');
-        $modifyTaskInput.value = task.name;
-        $modifyTaskBtn.classList.remove('edit-button');
-        $modifyTaskBtn.classList.add('edit-finish-button');
-        return;
+      if (e.target.className.includes('edit-button')) {
+        editHandler();
+      } else if (e.target.className.includes('edit-finish-button')) {
+        editFinishHandler(e);
       }
+    });
 
-      // edit finish button을 눌렀을 경우
-      if (
-        e.target
-          .closest('.edit-finish-button')
-          .className.includes('edit-finish-button')
-      ) {
-        // 함수로 만들기
-        $modifyForm.classList.add('hidden');
-        $taskName.classList.remove('hidden');
-        $modifyTaskBtn.classList.add('edit-button');
-        $modifyTaskBtn.classList.remove('edit-finish-button');
-        modifyTaskHandler(e, newInput);
-        render();
-      }
-
-      // 기존 중첩된 EventListener 코드
-      // $modifyTaskBtn.addEventListener('click', e => {
-      //   if (e.target.id === $modifyForm.id) {
-      //     $modifyForm.classList.add('hidden');
-      //     $taskName.classList.remove('hidden');
-      //     render();
-      //   }
-      // });
+    $modifyForm.addEventListener('submit', e => {
+      e.preventDefault();
+      editFinishHandler(e);
     });
 
     $modifyTaskInput.addEventListener('input', e => {

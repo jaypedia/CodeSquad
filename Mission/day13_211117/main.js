@@ -1,29 +1,32 @@
-// List
-const $taskList = document.querySelector('[data-lists]');
-const $newListForm = document.querySelector('[data-new-list-form]');
-const $newListInput = document.querySelector('[data-new-list-input]');
-const $newListBtn = document.querySelector('[data-new-list-button]');
-const $deleteListBtn = document.querySelector('[data-delete-list-button]');
+const $ = selector => document.querySelector(selector);
+const CLASSNAME = {
+  EDIT_BUTTON: 'edit-button',
+  EDIT_FIN_BUTTON: 'edit-finish-button',
+  HIDDEN: 'hidden',
+  LIST_NAME: 'list-name',
+  ACTIVE_LIST: 'active-list',
+};
 
-// Task
-const $main = document.querySelector('[data-main]');
-const $taskCount = document.querySelector('[data-task-count]');
-const $todoList = document.querySelector('[data-todo-list]');
-const $newTaskForm = document.querySelector('[data-new-task-form]');
-const $newTaskInput = document.querySelector('[data-new-task-input]');
-const $newTaskBtn = document.querySelector('[data-new-task-button]');
-const $taskTemplate = document.getElementById('task-template');
-const $clearTaskBtn = document.querySelector(
-  '[data-clear-complete-tasks-button]'
-);
+const $taskList = $('[data-lists]');
+const $newListForm = $('[data-new-list-form]');
+const $newListInput = $('[data-new-list-input]');
+const $newListBtn = $('[data-new-list-button]');
+const $deleteListBtn = $('[data-delete-list-button]');
 
-// Date & Time
-const $month = document.querySelector('.month');
-const $date = document.querySelector('.date');
-const $day = document.querySelector('.day');
-const $time = document.querySelector('.time');
+const $main = $('[data-main]');
+const $taskCount = $('[data-task-count]');
+const $todoList = $('[data-todo-list]');
+const $newTaskForm = $('[data-new-task-form]');
+const $newTaskInput = $('[data-new-task-input]');
+const $newTaskBtn = $('[data-new-task-button]');
+const $taskTemplate = $('#task-template');
+const $clearTaskBtn = $('[data-clear-complete-tasks-button]');
 
-// Local Storage
+const $month = $('.month');
+const $date = $('.date');
+const $day = $('.day');
+const $time = $('.time');
+
 const LOCAL_STORAGE_LIST_KEY = 'task.lists';
 const LOCAL_STORAGE_SELECTED_LIST_ID_KEY = 'selected.selectedListId';
 let lists = JSON.parse(localStorage.getItem(LOCAL_STORAGE_LIST_KEY)) || [];
@@ -72,7 +75,6 @@ function render() {
   renderList();
 
   const selectedList = lists.find(list => list.id === +selectedListId);
-
   if (selectedListId) {
     $taskCount.style.display = '';
     $todoList.style.display = '';
@@ -95,10 +97,10 @@ function renderList() {
   lists.forEach(list => {
     const listElement = document.createElement('li');
     listElement.dataset.listId = list.id;
-    listElement.classList.add('list-name');
+    listElement.classList.add(CLASSNAME.LIST_NAME);
     listElement.textContent = list.name;
     if (list.id === Number(selectedListId)) {
-      listElement.classList.add('active-list');
+      listElement.classList.add(CLASSNAME.ACTIVE_LIST);
     }
     $taskList.appendChild(listElement);
   });
@@ -117,7 +119,7 @@ function renderTask(selectedList) {
     const taskElement = document.importNode($taskTemplate.content, true);
     const $checkbox = taskElement.querySelector('input');
     const $label = taskElement.querySelector('label');
-    const $taskName = $label.querySelector('.task-name');
+    const $taskName = taskElement.querySelector('.task-name');
     const $deleteTaskBtn = taskElement.querySelector(
       '[data-delete-task-button]'
     );
@@ -130,48 +132,41 @@ function renderTask(selectedList) {
     );
     let newInput = task.name;
 
-    $checkbox.id = task.id;
-    $checkbox.checked = task.complete;
-    $label.htmlFor = task.id;
-
-    $taskName.innerHTML = task.name;
-    $deleteTaskBtn.id = task.id;
-    $modifyTaskBtn.id = task.id;
-    $modifyForm.id = task.id;
-
-    $modifyForm.classList = 'hidden';
-
-    function editHandler() {
-      $modifyForm.classList.remove('hidden');
-      $taskName.classList.add('hidden');
-      $modifyTaskInput.value = task.name;
-      $modifyTaskBtn.classList.remove('edit-button');
-      $modifyTaskBtn.classList.add('edit-finish-button');
-      return;
-    }
-
-    function editFinishHandler(e) {
-      $modifyForm.classList.add('hidden');
-      $taskName.classList.remove('hidden');
-      $modifyTaskBtn.classList.add('edit-button');
-      $modifyTaskBtn.classList.remove('edit-finish-button');
-      modifyTaskHandler(e, newInput);
-      render();
-    }
+    setAttribuesToTask({
+      task,
+      $checkbox,
+      $label,
+      $taskName,
+      $deleteTaskBtn,
+      $modifyTaskBtn,
+      $modifyForm,
+    });
 
     $deleteTaskBtn.addEventListener('click', deleteTaskHandler);
 
     $modifyTaskBtn.addEventListener('click', e => {
-      if (e.target.className.includes('edit-button')) {
-        editHandler();
-      } else if (e.target.className.includes('edit-finish-button')) {
-        editFinishHandler(e);
+      if (e.target.className.includes(CLASSNAME.EDIT_BUTTON)) {
+        editHandler({
+          $modifyForm,
+          $taskName,
+          $modifyTaskInput,
+          $modifyTaskBtn,
+          task,
+        });
+        $modifyTaskInput.focus();
+      } else if (e.target.className.includes(CLASSNAME.EDIT_FIN_BUTTON)) {
+        // span을 button 태그로 바꾸고 이부분 return으로 바꾸기
+        editFinishHandler({ $modifyForm, $taskName, $modifyTaskBtn });
+        modifyTaskHandler(e, newInput);
+        render();
       }
     });
 
     $modifyForm.addEventListener('submit', e => {
       e.preventDefault();
-      editFinishHandler(e);
+      editFinishHandler({ $modifyForm, $taskName, $modifyTaskBtn });
+      modifyTaskHandler(e, newInput);
+      render();
     });
 
     $modifyTaskInput.addEventListener('input', e => {
@@ -180,6 +175,48 @@ function renderTask(selectedList) {
 
     $todoList.appendChild(taskElement);
   });
+}
+
+function setAttribuesToTask({
+  task,
+  $checkbox,
+  $label,
+  $taskName,
+  $deleteTaskBtn,
+  $modifyTaskBtn,
+  $modifyForm,
+}) {
+  const { id, complete, name } = task;
+  $checkbox.id = id;
+  $checkbox.checked = complete;
+  $label.htmlFor = id;
+  $taskName.innerHTML = name;
+  $deleteTaskBtn.id = id;
+  $modifyTaskBtn.id = id;
+  $modifyForm.id = id;
+  $modifyForm.classList = CLASSNAME.HIDDEN;
+}
+
+function editHandler({
+  $modifyForm,
+  $taskName,
+  $modifyTaskInput,
+  $modifyTaskBtn,
+  task,
+}) {
+  $modifyForm.classList.remove(CLASSNAME.HIDDEN);
+  $taskName.classList.add(CLASSNAME.HIDDEN);
+  $modifyTaskInput.value = task.name;
+  $modifyTaskBtn.classList.remove(CLASSNAME.EDIT_BUTTON);
+  $modifyTaskBtn.classList.add(CLASSNAME.EDIT_FIN_BUTTON);
+  return;
+}
+
+function editFinishHandler({ $modifyForm, $taskName, $modifyTaskBtn }) {
+  $modifyForm.classList.add(CLASSNAME.HIDDEN);
+  $taskName.classList.remove(CLASSNAME.HIDDEN);
+  $modifyTaskBtn.classList.add(CLASSNAME.EDIT_BUTTON);
+  $modifyTaskBtn.classList.remove(CLASSNAME.EDIT_FIN_BUTTON);
 }
 
 function save() {

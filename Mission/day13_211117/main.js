@@ -76,14 +76,14 @@ function render() {
 
   const selectedList = lists.find(list => list.id === +selectedListId);
   if (selectedListId) {
-    $taskCount.style.display = '';
-    $todoList.style.display = '';
+    $taskCount.classList.remove('invisible');
+    $todoList.classList.remove('invisible');
     renderTaskCount(selectedList);
     clearElement($todoList);
     renderTask(selectedList);
   } else {
-    $taskCount.style.display = 'none';
-    $todoList.style.display = 'none';
+    $taskCount.classList.add('invisible');
+    $todoList.classList.add('invisible');
   }
 }
 
@@ -174,6 +174,7 @@ function renderTask(selectedList) {
     });
 
     $todoList.appendChild(taskElement);
+    //  taskElement.scrollIntoView({ block: 'center', behavior: 'smooth' });
   });
 }
 

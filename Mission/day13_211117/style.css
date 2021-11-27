@@ -406,6 +406,10 @@ input:focus::placeholder {
   display: none;
 }
 
+.invisible {
+  opacity: 0;
+}
+
 .todo-container {
   display: flex;
   height: 100%;

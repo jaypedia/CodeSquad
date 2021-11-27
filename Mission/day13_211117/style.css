@@ -6,7 +6,7 @@
   --color-light-white: #eeeeee;
   --color-dark-white: #bdbdbd;
   --color-light-purple: #b2b1e8;
-  --color-purple: #b2b1e8;
+  --color-purple: #8987e9;
   --color-dark-purple: #4d4ae8;
   --color-pink: #fea5bb;
   --color-dark-grey: #464444;
@@ -37,6 +37,23 @@
 
   /* Animation */
   --animation-duration: 150ms;
+}
+
+/* Scroll */
+::-webkit-scrollbar {
+  width: 10px;
+}
+::-webkit-scrollbar-track {
+  background-color: var(--color-light-purple);
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: var(--color-white);
+  border-radius: 30px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: var(--color-pink);
 }
 
 /* Universal tags */
@@ -75,6 +92,7 @@ html {
   justify-content: center;
   align-items: center;
   font-family: Arial, Helvetica, sans-serif;
+  overflow-y: hidden;
 }
 
 body {
@@ -121,6 +139,12 @@ aside {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+}
+
+aside .my-lists {
+  overflow-x: hidden;
+  overflow-y: scroll;
+  height: 480px;
 }
 
 aside .task-list li {
@@ -193,6 +217,8 @@ main .info::after {
 
 main .todo-list {
   padding: var(--size-padding-small);
+  overflow-y: scroll;
+  height: 480px;
 }
 
 main .todo-list .task {

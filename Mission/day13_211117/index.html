@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Todo list</title>
+    <title>My Todo List</title>
     <link rel="stylesheet" href="style.css" />
     <script src="main.js" defer></script>
     <script
@@ -64,39 +64,41 @@
         </p>
         <p class="task-count" data-task-count>3 tasks remaining</p>
       </div>
-      <div class="todo-list" data-todo-list>
-        <!-- <div class="task">
+      <div class="todo-container">
+        <div class="todo-list" data-todo-list>
+          <!-- <div class="task">
           <input type="checkbox" id="task1" />
           <label for="task1">
             <span class="custom-checkbox"></span>
             JavaScript
           </label>
         </div> -->
-      </div>
-      <div class="manage-task">
-        <div class="new-task-creator">
-          <form action="" data-new-task-form>
-            <input
-              type="text"
-              data-new-task-input
-              class="new task"
-              placeholder="New task"
-              aria-label="new task"
-              required
-            />
-            <button
-              class="btn create main"
-              aria-label="create new task"
-              data-new-task-button
-            >
-              <i class="fas fa-plus-circle"></i>
-            </button>
-          </form>
         </div>
-        <div class="clear-completed-task">
-          <button class="btn clear" data-clear-complete-tasks-button>
-            Clear completed tasks
-          </button>
+        <div class="manage-task">
+          <div class="new-task-creator">
+            <form action="" data-new-task-form>
+              <input
+                type="text"
+                data-new-task-input
+                class="new task"
+                placeholder="New task"
+                aria-label="new task"
+                required
+              />
+              <button
+                class="btn create main"
+                aria-label="create new task"
+                data-new-task-button
+              >
+                <i class="fas fa-plus-circle"></i>
+              </button>
+            </form>
+          </div>
+          <div class="clear-completed-task">
+            <button class="btn clear" data-clear-complete-tasks-button>
+              Clear completed tasks
+            </button>
+          </div>
         </div>
       </div>
     </main>

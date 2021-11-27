@@ -74,7 +74,7 @@ html {
   display: flex;
   justify-content: center;
   align-items: center;
-  font-family: 'Roboto Mono', monospace;
+  font-family: Arial, Helvetica, sans-serif;
 }
 
 body {
@@ -103,6 +103,7 @@ header {
   font-weight: var(--weight-thin);
   letter-spacing: var(--space-small);
   position: relative;
+  font-family: 'Roboto mono', monospace;
 }
 
 header .setting {
@@ -246,6 +247,7 @@ input:focus::placeholder {
   border-radius: var(--size-border-radius);
   padding: var(--size-padding-small);
   transition: all 300ms ease;
+  font-family: 'Roboto mono', monospace;
 }
 
 .btn.create {
@@ -376,4 +378,11 @@ input:focus::placeholder {
 
 .hidden {
   display: none;
+}
+
+.todo-container {
+  display: flex;
+  height: 100%;
+  flex-direction: column;
+  justify-content: space-between;
 }

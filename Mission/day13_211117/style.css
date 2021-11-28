@@ -170,7 +170,8 @@ aside .manage-list {
   align-items: center;
 }
 
-.delete-list {
+.list-buttons-container {
+  display: flex;
   width: 100%;
 }
 
@@ -289,8 +290,10 @@ input:focus::placeholder {
   color: var(--color-dark-purple);
 }
 
-.btn.delete {
+.btn.delete-list,
+.btn.edit-list {
   width: 100%;
+  margin: 5px;
   background-color: var(--color-white);
   margin-top: var(--size-padding-small);
 }
@@ -303,7 +306,7 @@ input:focus::placeholder {
   opacity: 0.8;
 }
 
-/* Checkbox */
+/* Custom Checkbox */
 [type='checkbox'] {
   opacity: 0;
   position: absolute;
@@ -317,7 +320,6 @@ input:focus::placeholder {
   margin-right: 10px;
   border-radius: 50%;
   border: 2px solid var(--color-black);
-  /* transform: scale(1); */
   transition: transform var(--animation-duration) ease-in-out;
 }
 
@@ -353,7 +355,7 @@ input:focus::placeholder {
 .task label::after {
   content: '';
   position: absolute;
-  left: 25px;
+  left: 35px;
   right: 0;
   top: 50%;
   height: 2.5px;

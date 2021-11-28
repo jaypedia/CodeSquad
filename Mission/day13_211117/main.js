@@ -84,7 +84,6 @@ function render() {
     renderTaskCount(selectedList);
     clearElement($todoList);
     renderTask(selectedList);
-
     if (selectedList.tasks.length) {
       $notifyTask.classList.add('invisible');
     } else {
@@ -145,6 +144,8 @@ function renderTask(selectedList) {
     const $modifyTaskInput = taskElement.querySelector(
       '[data-modify-task-input]'
     );
+    const $creationTime = taskElement.querySelector('[data-creation-time]');
+
     let newInput = task.name;
 
     setAttribuesToTask({
@@ -155,6 +156,7 @@ function renderTask(selectedList) {
       $deleteTaskBtn,
       $modifyTaskBtn,
       $modifyForm,
+      $creationTime,
     });
 
     $deleteTaskBtn.addEventListener('click', deleteTaskHandler);
@@ -201,8 +203,9 @@ function setAttribuesToTask({
   $deleteTaskBtn,
   $modifyTaskBtn,
   $modifyForm,
+  $creationTime,
 }) {
-  const { id, complete, name } = task;
+  const { id, time, complete, name } = task;
   $checkbox.id = id;
   $checkbox.checked = complete;
   $label.htmlFor = id;
@@ -211,6 +214,7 @@ function setAttribuesToTask({
   $modifyTaskBtn.id = id;
   $modifyForm.id = id;
   $modifyForm.classList = CLASSNAME.HIDDEN;
+  $creationTime.innerHTML = time;
 }
 
 function editHandler({
@@ -255,8 +259,8 @@ function createList(newListName) {
   };
 }
 
-function createTask(newTaskName) {
-  return { id: Date.now(), name: newTaskName, complete: false };
+function createTask(time, newTaskName) {
+  return { id: Date.now(), time: time, name: newTaskName, complete: false };
 }
 
 function addListHandler(e) {
@@ -281,7 +285,13 @@ function addTaskHandler(e) {
   e.preventDefault();
   const newTaskName = $newTaskInput.value;
   if (newTaskName === null || newTaskName === '') return;
-  const task = createTask(newTaskName);
+
+  const now = new Date();
+  const hour = now.getHours().toString().padStart(2, '0');
+  const minute = now.getMinutes().toString().padStart(2, '0');
+  const time = `${hour}:${minute}`;
+
+  const task = createTask(time, newTaskName);
   $newTaskInput.value = '';
   const selectedList = lists.find(list => list.id === +selectedListId);
   selectedList.tasks.push(task);

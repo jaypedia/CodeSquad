@@ -203,6 +203,7 @@ main .info .info__date .date {
 }
 
 main .info .task-count {
+  font-size: var(--font-small);
   color: var(--color-dark-purple);
 }
 
@@ -420,5 +421,17 @@ input:focus::placeholder {
 
 .notify {
   color: var(--color-grey);
+  font-size: var(--font-small);
   letter-spacing: 1px;
+}
+
+@media screen and (max-width: 768px) {
+  :root {
+    /* Font size */
+    --font-large: 30px;
+    --font-medium: 18px;
+    --font-regular: 16px;
+    --font-small: 14px;
+    --font-micro: 12px;
+  }
 }

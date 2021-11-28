@@ -38,32 +38,12 @@ let selectedListId = localStorage.getItem(LOCAL_STORAGE_SELECTED_LIST_ID_KEY);
 
 function displayDateTime() {
   const today = new Date();
-  const dayNames = [
-    'Sunday',
-    'Monday',
-    'Tuesday',
-    'Wednesday',
-    'Thursday',
-    'Friday',
-    'Saturday',
-  ];
-  const monthNames = [
-    'Jan',
-    'Feb',
-    'Mar',
-    'Apr',
-    'May',
-    'Jun',
-    'Jul',
-    'Aug',
-    'Sep',
-    'Oct',
-    'Nov',
-    'Dec',
-  ];
-  $month.textContent = monthNames[today.getMonth()];
+
+  $month.textContent = today.toString().slice(4, 7);
   $date.textContent = today.getDate();
-  $day.textContent = dayNames[today.getDay()];
+  $day.textContent = new Intl.DateTimeFormat('en-US', {
+    weekday: 'long',
+  }).format(today);
 
   const hour = today.getHours().toString().padStart(2, '0');
   const minute = today.getMinutes().toString().padStart(2, '0');

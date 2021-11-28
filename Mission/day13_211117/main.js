@@ -86,15 +86,15 @@ function render() {
     renderTask(selectedList);
 
     if (selectedList.tasks.length) {
-      $notifyTask.classList.add('hidden');
+      $notifyTask.classList.add('invisible');
     } else {
-      $notifyTask.classList.remove('hidden');
+      $notifyTask.classList.remove('invisible');
       $notifyTask.textContent = '+ Add your task';
     }
   } else {
     $taskCount.classList.add('invisible');
     $todoList.classList.add('invisible');
-    $notifyTask.classList.remove('hidden');
+    $notifyTask.classList.remove('invisible');
     $notifyTask.textContent = 'Select your list';
   }
 }

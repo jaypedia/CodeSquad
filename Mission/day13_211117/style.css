@@ -101,7 +101,6 @@ body {
   height: 70%;
   margin: 0;
   padding: 0;
-  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
   display: grid;
   grid:
     'header header' 40px
@@ -122,6 +121,8 @@ header {
   letter-spacing: var(--space-small);
   position: relative;
   font-family: 'Roboto mono', monospace;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
 }
 
 header .setting {
@@ -139,6 +140,8 @@ aside {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  border-bottom-left-radius: 10px;
+  /* box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22); */
 }
 
 aside .my-lists {
@@ -182,6 +185,8 @@ main {
   padding: var(--size-padding);
   display: flex;
   flex-direction: column;
+  border-bottom-right-radius: 10px;
+  /* box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22); */
 }
 
 main .info {
@@ -219,6 +224,9 @@ main .info::after {
 
 main .todo-list {
   padding: var(--size-padding-small);
+  padding-top: 0;
+  padding-bottom: 0;
+  margin-bottom: 20px;
   overflow-y: scroll;
   height: 480px;
 }
@@ -425,6 +433,7 @@ input:focus::placeholder {
   color: var(--color-grey);
   font-size: var(--font-small);
   letter-spacing: 1px;
+  margin-bottom: 0;
 }
 
 @media screen and (max-width: 768px) {

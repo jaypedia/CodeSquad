@@ -20,6 +20,7 @@
 
     <aside>
       <div class="my-lists">
+        <span class="notify list" data-notify-list>+ Add your list first</span>
         <ul class="task-list" data-lists>
           <!-- <li class="list-name active-list">Coding</li>
           <li class="list-name">Grocery</li>
@@ -35,6 +36,7 @@
               data-new-list-input
               placeholder="New list"
               aria-label="new list"
+              maxlength="15"
               required
             />
             <button
@@ -65,6 +67,7 @@
         <p class="task-count" data-task-count>3 tasks remaining</p>
       </div>
       <div class="todo-container">
+        <span class="notify task" data-notify-task></span>
         <div class="todo-list" data-todo-list>
           <!-- <div class="task">
           <input type="checkbox" id="task1" />

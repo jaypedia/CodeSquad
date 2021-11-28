@@ -416,3 +416,8 @@ input:focus::placeholder {
   flex-direction: column;
   justify-content: space-between;
 }
+
+.notify {
+  color: var(--color-grey);
+  letter-spacing: 1px;
+}

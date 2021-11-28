@@ -22,6 +22,9 @@ const $newTaskBtn = $('[data-new-task-button]');
 const $taskTemplate = $('#task-template');
 const $clearTaskBtn = $('[data-clear-complete-tasks-button]');
 
+const $notifyList = $('[data-notify-list]');
+const $notifyTask = $('[data-notify-task]');
+
 const $month = $('.month');
 const $date = $('.date');
 const $day = $('.day');
@@ -81,9 +84,18 @@ function render() {
     renderTaskCount(selectedList);
     clearElement($todoList);
     renderTask(selectedList);
+
+    if (selectedList.tasks.length) {
+      $notifyTask.classList.add('hidden');
+    } else {
+      $notifyTask.classList.remove('hidden');
+      $notifyTask.textContent = '+ Add your task';
+    }
   } else {
     $taskCount.classList.add('invisible');
     $todoList.classList.add('invisible');
+    $notifyTask.classList.remove('hidden');
+    $notifyTask.textContent = 'Select your list';
   }
 }
 
@@ -94,6 +106,9 @@ function clearElement(element) {
 }
 
 function renderList() {
+  lists.length
+    ? $notifyList.classList.add('hidden')
+    : $notifyList.classList.remove('hidden');
   lists.forEach(list => {
     const listElement = document.createElement('li');
     listElement.dataset.listId = list.id;

@@ -123,6 +123,10 @@ function renderList() {
 
 function renderTaskCount(selectedList) {
   const taskCount = selectedList.tasks.length;
+  if (!taskCount) {
+    $taskCount.textContent = '';
+    return;
+  }
   const completeTasksCount = selectedList.tasks.filter(
     task => task.complete
   ).length;

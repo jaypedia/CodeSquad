@@ -209,7 +209,7 @@ main .info .info__date .date {
 }
 
 main .info .task-count {
-  font-size: var(--font-small);
+  font-size: var(--font-micro);
   color: var(--color-dark-purple);
 }
 

@@ -11,6 +11,7 @@ const $taskList = $('[data-lists]');
 const $newListForm = $('[data-new-list-form]');
 const $newListInput = $('[data-new-list-input]');
 const $newListBtn = $('[data-new-list-button]');
+const $editListBtn = $('[data-edit-list-button]');
 const $deleteListBtn = $('[data-delete-list-button]');
 
 const $main = $('[data-main]');
@@ -121,11 +122,15 @@ function renderList() {
 }
 
 function renderTaskCount(selectedList) {
-  const incompleteTasksCount = selectedList.tasks.filter(
-    task => task.complete === false
+  const taskCount = selectedList.tasks.length;
+  const completeTasksCount = selectedList.tasks.filter(
+    task => task.complete
   ).length;
-  const taskString = incompleteTasksCount === 1 ? 'task' : 'tasks';
-  $taskCount.textContent = `${incompleteTasksCount} ${taskString} remaining`;
+  const percentageOfCompletedTask = Math.round(
+    (completeTasksCount / taskCount) * 100
+  );
+  // $taskCount.textContent = `${completeTasksCount} / ${taskCount}`
+  $taskCount.textContent = `${percentageOfCompletedTask}%`;
 }
 
 function renderTask(selectedList) {
@@ -350,6 +355,7 @@ $newTaskForm.addEventListener('submit', addTaskHandler);
 $newTaskBtn.addEventListener('click', addTaskHandler);
 
 $taskList.addEventListener('click', selectListHandler);
+// $editListBtn.addEventListener('click', editListHandler);
 $deleteListBtn.addEventListener('click', deleteListHandler);
 $todoList.addEventListener('click', taskCountHandler);
 $clearTaskBtn.addEventListener('click', clearTaskHander);

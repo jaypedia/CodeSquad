@@ -155,7 +155,7 @@ aside .task-list li {
 }
 
 aside .task-list li:hover {
-  transform: scale(1.05);
+  transform: scaleY(1.15);
 }
 
 aside .task-list li.active-list {
@@ -343,6 +343,7 @@ input:focus::placeholder {
 }
 
 .task label {
+  cursor: pointer;
   display: inline-flex;
   align-items: center;
   position: relative;

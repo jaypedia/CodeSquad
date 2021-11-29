@@ -97,6 +97,10 @@ function renderList() {
     if (list.id === Number(selectedListId)) {
       listElement.classList.add(CLASSNAME.ACTIVE_LIST);
     }
+    const taskCountElement = document.createElement('span');
+    taskCountElement.classList.add('task-count-circle');
+    taskCountElement.textContent = list.tasks.length;
+    listElement.appendChild(taskCountElement);
     $taskList.appendChild(listElement);
   });
 }

@@ -120,6 +120,7 @@ function renderTaskCount(selectedList) {
 function renderTask(selectedList) {
   selectedList.tasks.forEach(task => {
     const taskElement = document.importNode($taskTemplate.content, true);
+    const $task = taskElement.querySelector('.task');
     const $checkbox = taskElement.querySelector('input');
     const $label = taskElement.querySelector('label');
     const $taskName = taskElement.querySelector('.task-name');
@@ -146,6 +147,16 @@ function renderTask(selectedList) {
       $modifyTaskBtn,
       $modifyForm,
       $creationTime,
+    });
+
+    $task.addEventListener('mouseover', () => {
+      $modifyTaskBtn.classList.remove('hidden');
+      $deleteTaskBtn.classList.remove('hidden');
+    });
+
+    $task.addEventListener('mouseout', () => {
+      $modifyTaskBtn.classList.add('hidden');
+      $deleteTaskBtn.classList.add('hidden');
     });
 
     $deleteTaskBtn.addEventListener('click', deleteTaskHandler);

@@ -152,19 +152,23 @@ aside .my-lists {
 }
 
 aside .task-list li {
-  padding-bottom: var(--size-padding-small);
   cursor: pointer;
   font-size: var(--font-medium);
   transition: all var(--animation-duration) ease-in;
+  margin: 5px;
+  padding: 5px;
 }
 
 aside .task-list li:hover {
-  transform: scaleY(1.15);
+  background-color: var(--color-pink);
+  border-radius: 10px;
 }
 
 aside .task-list li.active-list {
   font-weight: var(--weight-bold);
   color: var(--color-white);
+  border: 3px solid var(--color-white);
+  border-radius: 10px;
 }
 
 aside .manage-list {
@@ -311,8 +315,8 @@ input:focus::placeholder {
   background-color: var(--color-light-purple);
 }
 
-.btn:hover {
-  opacity: 0.8;
+.btn.create:hover {
+  transform: scale(1.2) rotate(180deg);
 }
 
 /* Custom Checkbox */
@@ -416,7 +420,7 @@ input:focus::placeholder {
 }
 
 .hidden {
-  display: none;
+  display: none !important;
 }
 
 .invisible {

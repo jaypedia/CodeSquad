@@ -21,11 +21,7 @@
     <aside>
       <div class="my-lists">
         <span class="notify list" data-notify-list>+ Add your list first</span>
-        <ul class="task-list" data-lists>
-          <!-- <li class="list-name active-list">Coding</li>
-          <li class="list-name">Grocery</li>
-          <li class="list-name">Books</li> -->
-        </ul>
+        <ul class="task-list" data-lists></ul>
       </div>
       <div class="manage-list">
         <div class="new-list-creator">
@@ -49,9 +45,11 @@
           </form>
         </div>
         <div class="list-buttons-container">
-          <button class="btn edit-list" data-edit-list-button>Edit</button>
+          <button class="btn edit-list" data-edit-list-button>
+            <i class="fas fa-pen-nib"></i>
+          </button>
           <button class="btn delete-list" data-delete-list-button>
-            Delete
+            <i class="fas fa-trash-alt"></i>
           </button>
         </div>
       </div>
@@ -65,19 +63,11 @@
           <span class="day"></span>
           <span class="time"></span>
         </p>
-        <p class="task-count" data-task-count>3 tasks remaining</p>
+        <p class="task-count" data-task-count></p>
       </div>
       <div class="todo-container">
         <span class="notify task" data-notify-task></span>
-        <div class="todo-list" data-todo-list>
-          <!-- <div class="task">
-          <input type="checkbox" id="task1" />
-          <label for="task1">
-            <span class="custom-checkbox"></span>
-            JavaScript
-          </label>
-        </div> -->
-        </div>
+        <div class="todo-list" data-todo-list></div>
         <div class="manage-task">
           <div class="new-task-creator">
             <form action="" data-new-task-form>
@@ -99,8 +89,12 @@
             </form>
           </div>
           <div class="clear-completed-task">
-            <button class="btn clear" data-clear-complete-tasks-button>
-              Clear completed tasks
+            <button
+              class="btn clear"
+              title="Clear complete task"
+              data-clear-complete-tasks-button
+            >
+              <i class="fas fa-broom"></i>
             </button>
           </div>
         </div>
@@ -118,12 +112,14 @@
         <form data-modify-form>
           <input type="text" data-modify-task-input />
         </form>
-        <span class="modify icon"
-          ><i class="fas fa-feather-alt edit-button" data-modify-task-button></i
-        ></span>
-        <span class="delete icon"
-          ><i class="fas fa-trash-alt" data-delete-task-button></i
-        ></span>
+        <i
+          class="modify icon fas fa-feather-alt edit-button hidden"
+          data-modify-task-button
+        ></i>
+        <i
+          class="delete icon fas fa-trash-alt hidden"
+          data-delete-task-button
+        ></i>
       </div>
     </template>
   </body>

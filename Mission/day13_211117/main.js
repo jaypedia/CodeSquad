@@ -12,7 +12,7 @@ const $newListForm = $('[data-new-list-form]');
 const $newListInput = $('[data-new-list-input]');
 const $newListBtn = $('[data-new-list-button]');
 const $editListBtn = $('[data-edit-list-button]');
-const $deleteListBtn = $('[data-delete-list-button]');
+const $listSettingBtn = $('[data-list-setting-button]');
 
 const $main = $('[data-main]');
 const $taskCount = $('[data-task-count]');
@@ -22,6 +22,9 @@ const $newTaskInput = $('[data-new-task-input]');
 const $newTaskBtn = $('[data-new-task-button]');
 const $taskTemplate = $('#task-template');
 const $clearTaskBtn = $('[data-clear-complete-tasks-button]');
+
+const $listLetterCounter = $('[data-list-letter-counter]');
+const $taskLetterCounter = $('[data-task-letter-counter]');
 
 const $notifyList = $('[data-notify-list]');
 const $notifyTask = $('[data-notify-task]');
@@ -66,9 +69,9 @@ function render() {
     clearElement($todoList);
     renderTask(selectedList);
     if (selectedList.tasks.length) {
-      $notifyTask.classList.add('invisible');
+      $notifyTask.classList.add('hidden');
     } else {
-      $notifyTask.classList.remove('invisible');
+      $notifyTask.classList.remove('hidden');
       $notifyTask.textContent = '+ Add your task';
     }
   } else {
@@ -355,6 +358,6 @@ $newTaskBtn.addEventListener('click', addTaskHandler);
 
 $taskList.addEventListener('click', selectListHandler);
 // $editListBtn.addEventListener('click', editListHandler);
-$deleteListBtn.addEventListener('click', deleteListHandler);
+$listSettingBtn.addEventListener('click', deleteListHandler);
 $todoList.addEventListener('click', taskCountHandler);
 $clearTaskBtn.addEventListener('click', clearTaskHander);

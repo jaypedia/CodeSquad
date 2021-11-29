@@ -6,6 +6,7 @@
   --color-light-white: #eeeeee;
   --color-dark-white: #bdbdbd;
   --color-light-purple: #b2b1e8;
+  --color-light-purple-2: #9d9dd6;
   --color-purple: #8987e9;
   --color-dark-purple: #4d4ae8;
   --color-pink: #fea5bb;
@@ -113,7 +114,7 @@ header {
   grid-area: header;
   color: var(--color-white);
   background-color: var(--color-dark-grey);
-  text-align: center;
+  /*text-align: center;*/
   height: 40px;
   line-height: 40px;
   font-size: var(--font-small);
@@ -123,13 +124,23 @@ header {
   font-family: 'Roboto mono', monospace;
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 10px 0 10px;
 }
 
-header .setting {
-  position: absolute;
-  right: 10px;
-  top: 10px;
+header .list-setting {
+  cursor: pointer;
+  transition: all var(--animation-duration) ease;
+}
+
+header .task-setting {
+  cursor: pointer;
   color: var(--color-light-purple);
+}
+header .list-setting:hover {
+  opacity: 0.7;
 }
 
 /* Side bar */
@@ -160,7 +171,7 @@ aside .task-list li {
 }
 
 aside .task-list li:hover {
-  background-color: var(--color-pink);
+  background-color: var(--color-light-purple-2);
   border-radius: 10px;
 }
 
@@ -199,6 +210,7 @@ main .info {
   justify-content: space-between;
   align-items: center;
   position: relative;
+  padding: var(--size-padding-small);
   margin-bottom: var(--size-padding-small);
 }
 
@@ -223,8 +235,9 @@ main .info::after {
   position: absolute;
   bottom: -2px;
   height: 1px;
-  width: 100%;
+  width: 97%;
   background: var(--color-dark-grey);
+  opacity: 0.7;
 }
 
 main .todo-list {
@@ -432,6 +445,7 @@ input:focus::placeholder {
   height: 100%;
   flex-direction: column;
   justify-content: space-between;
+  position: relative;
 }
 
 .notify {
@@ -439,6 +453,12 @@ input:focus::placeholder {
   font-size: var(--font-small);
   letter-spacing: 1px;
   margin-bottom: 0;
+}
+
+.notify.task {
+  position: absolute;
+  top: 10px;
+  left: 10px;
 }
 
 @media screen and (max-width: 768px) {
@@ -459,4 +479,13 @@ input:focus::placeholder {
   background-color: var(--color-white);
   border-radius: 50%;
   color: var(--color-purple);
+}
+
+label:hover {
+  background-color: #ffffff55;
+  border-radius: 10px;
+}
+
+.task.input {
+  margin-bottom: 0;
 }

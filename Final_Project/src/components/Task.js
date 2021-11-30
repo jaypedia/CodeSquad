@@ -1,8 +1,16 @@
+import { listStorage } from '../utils/LocalStorage.js';
+import clearElement from '../utils/ClearElement.js';
+import { CLASSNAME } from '../utils/Classname.js';
+
 export default class TaskComponent {
   // $target : <div class="my-todo-list"></div>
   constructor({ $target }) {
     this.$target = $target;
     this.myTaskContainer = this.createTaskContainer();
+    this.displayDateTime = this.displayDateTime();
+    this.selectedList = listStorage.getSelectedList();
+    this.renderTaskPercent = this.renderTaskPercent(this.selectedList);
+    this.renderTask = this.renderTask(this.selectedList);
   }
 
   initTask() {}
@@ -13,13 +21,12 @@ export default class TaskComponent {
     $info.classList = 'info';
     const $infoDate = document.createElement('p');
     $infoDate.className = 'info__date';
-    $infoDate.innerHTML = `<span class="month">${'Nov'}</span>
-    <span class="date">${'30'}</span>
-    <span class="day">${'Tuesday'}</span>
-    <span class="time">${'00:00:00'}</span>`;
+    $infoDate.innerHTML = `<span class="month"></span>
+    <span class="date"></span>
+    <span class="day"></span>
+    <span class="time"></span>`;
     const $infoTaskCount = document.createElement('p');
     $infoTaskCount.className = 'info__task-count';
-    $infoTaskCount.innerHTML = `${'33'}%`;
 
     const $todoInnerContainer = document.createElement('div');
     $todoInnerContainer.className = 'todo-inner-container';
@@ -71,5 +78,117 @@ export default class TaskComponent {
     $main.appendChild($info);
     $main.appendChild($todoInnerContainer);
     this.$target.appendChild($main);
+  }
+
+  displayDateTime() {
+    const $month = document.querySelector('.month');
+    const $date = document.querySelector('.date');
+    const $day = document.querySelector('.day');
+    const $time = document.querySelector('.time');
+
+    const today = new Date();
+
+    $month.textContent = today.toString().slice(4, 7);
+    $date.textContent = today.getDate();
+    $day.textContent = new Intl.DateTimeFormat('en-US', {
+      weekday: 'long',
+    }).format(today);
+
+    const hour = today.getHours().toString().padStart(2, '0');
+    const minute = today.getMinutes().toString().padStart(2, '0');
+    const second = today.getSeconds().toString().padStart(2, '0');
+    $time.innerHTML = `${hour}:${minute}:${second}`;
+  }
+
+  renderTaskPercent(selectedList) {
+    const $infoTaskCount = document.querySelector('.info__task-count');
+    const taskCount = selectedList.tasks.length;
+    if (!taskCount) {
+      $taskCount.textContent = '';
+      return;
+    }
+    const completeTasksCount = selectedList.tasks.filter(
+      task => task.complete
+    ).length;
+    const percentageOfCompletedTask = Math.round(
+      (completeTasksCount / taskCount) * 100
+    );
+    $infoTaskCount.textContent = `${percentageOfCompletedTask}%`;
+  }
+
+  renderTask(selectedList) {
+    selectedList.tasks.forEach(task => {
+      const $todoList = document.querySelector('.todo-list');
+      const $task = document.createElement('div');
+      $task.className = 'task';
+      const $checkbox = document.createElement('input');
+      $checkbox.type = 'checkbox';
+      const $label = document.createElement('label');
+      const $customCheckbox = document.createElement('span');
+      $customCheckbox.className = 'custom-checkbox';
+      const $creationTime = document.createElement('span');
+      $creationTime.className = 'creation-time';
+      const $taskName = document.createElement('span');
+      $taskName.className = 'task-name';
+
+      const $taskModifyForm = document.createElement('form');
+      const $taskModifyInput = document.createElement('input');
+      $taskModifyInput.type = 'text';
+      const $taskModifyBtn = document.createElement('button');
+      $taskModifyBtn.className = 'modify';
+      $taskModifyBtn.classList.add('icon');
+      $taskModifyBtn.classList.add('hidden');
+      $taskModifyBtn.classList.add('edit-button');
+      $taskModifyBtn.innerHTML = `<i class="fas fa-feather-alt"></i>`;
+      const $taskDeleteBtn = document.createElement('button');
+      $taskDeleteBtn.className = 'delete';
+      $taskDeleteBtn.classList.add('icon');
+      $taskDeleteBtn.classList.add('hidden');
+      $taskDeleteBtn.innerHTML = `<i class="fas fa-trash-alt"></i>`;
+
+      $taskModifyForm.appendChild($taskModifyInput);
+      $label.appendChild($customCheckbox);
+      $label.appendChild($creationTime);
+      $label.appendChild($taskName);
+      $task.appendChild($checkbox);
+      $task.appendChild($label);
+      $task.appendChild($taskModifyForm);
+      $task.appendChild($taskModifyBtn);
+      $task.appendChild($taskDeleteBtn);
+      $todoList.appendChild($task);
+
+      setAttribuesToTask({
+        task,
+        $checkbox,
+        $label,
+        $taskName,
+        $taskDeleteBtn,
+        $taskModifyBtn,
+        $taskModifyForm,
+        $creationTime,
+      });
+    });
+
+    function setAttribuesToTask({
+      task,
+      $checkbox,
+      $label,
+      $taskName,
+      $taskDeleteBtn,
+      $taskModifyBtn,
+      $taskModifyForm,
+      $creationTime,
+    }) {
+      const { id, time, complete, name } = task;
+      $checkbox.id = id;
+      $checkbox.checked = complete;
+      $label.htmlFor = id;
+      $taskName.innerHTML = name;
+      $taskDeleteBtn.id = id;
+      $taskModifyBtn.id = id;
+      $taskModifyForm.id = id;
+      $taskModifyForm.classList = CLASSNAME.HIDDEN;
+      $creationTime.innerHTML = time;
+    }
   }
 }

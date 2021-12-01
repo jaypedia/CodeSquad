@@ -28,6 +28,7 @@ const $progress = $('[data-progress]');
 const $progressBar = $('[data-progress-bar]');
 const $completedTaskTitle = $('[data-completed-task-title]');
 const $completedTasks = $('[data-completed-tasks]');
+const $manageTask = $('[data-manage-task]');
 
 const $listLetterCounter = $('[data-list-letter-counter]');
 const $taskLetterCounter = $('[data-task-letter-counter]');
@@ -105,7 +106,7 @@ function renderList() {
     const listElement = document.createElement('li');
     listElement.dataset.listId = list.id;
     listElement.classList.add(CLASSNAME.LIST_NAME);
-    listElement.textContent = list.name;
+    listElement.textContent = list.listname;
     if (list.id === Number(selectedListId)) {
       listElement.classList.add(CLASSNAME.ACTIVE_LIST);
     }
@@ -155,7 +156,7 @@ function renderTask(selectedList) {
     );
     const $creationTime = taskElement.querySelector('[data-creation-time]');
 
-    let newInput = task.name;
+    let newInput = task.taskname;
 
     setAttribuesToTask({
       task,
@@ -232,11 +233,11 @@ function setAttribuesToTask({
   $modifyForm,
   $creationTime,
 }) {
-  const { id, time, complete, name } = task;
+  const { id, time, complete, taskname } = task;
   $checkbox.id = id;
   $checkbox.checked = complete;
   $label.htmlFor = id;
-  $taskName.innerHTML = name;
+  $taskName.innerHTML = taskname;
   $deleteTaskBtn.id = id;
   $modifyTaskBtn.id = id;
   $modifyForm.id = id;
@@ -253,22 +254,40 @@ function editHandler({
 }) {
   $modifyForm.classList.remove(CLASSNAME.HIDDEN);
   $taskName.classList.add(CLASSNAME.HIDDEN);
-  $modifyTaskInput.value = task.name;
+  $modifyTaskInput.value = task.taskname;
   $modifyTaskBtn.classList.remove(CLASSNAME.EDIT_BUTTON);
   $modifyTaskBtn.classList.add(CLASSNAME.EDIT_FIN_BUTTON);
   return;
 }
 
 function renderCompletedTask() {
-  $taskList.classList.toggle('hidden');
-  $completedTaskTitle.classList.toggle('hidden');
-  $progress.classList.toggle('hidden');
   clearElement($completedTasks);
   completedTasks.forEach(task => {
-    const listElement = document.createElement('div');
-    listElement.className = 'completed-task';
-    listElement.innerHTML = task.name;
-    $completedTasks.appendChild(listElement);
+    const $listElement = document.createElement('div');
+    const $checkIcon = document.createElement('span');
+    const $listName = document.createElement('span');
+    const $taskName = document.createElement('span');
+    const $revertBtn = document.createElement('button');
+    const $deleteBtn = document.createElement('button');
+    $checkIcon.className = 'check-icon';
+    $checkIcon.innerHTML = `<i class="fas fa-check-circle"></i>`;
+    $listElement.className = 'completed-task';
+    $listName.innerHTML = task.listname;
+    $listName.className = 'completed-list-name';
+    $taskName.className = 'completed-task-name';
+    $taskName.innerHTML = task.taskname;
+    $revertBtn.className = 'revert-completed-task-btn';
+    $deleteBtn.className = 'delete-completed-task-btn';
+    $revertBtn.innerHTML = `<i class="fas fa-reply" id=${task.taskid}></i>`;
+    $deleteBtn.innerHTML = `<i class="fas fa-trash" id=${task.taskid}></i>`;
+    $listElement.appendChild($checkIcon);
+    $listElement.appendChild($listName);
+    $listElement.appendChild($taskName);
+    $listElement.appendChild($revertBtn);
+    $listElement.appendChild($deleteBtn);
+    $completedTasks.appendChild($listElement);
+
+    $deleteBtn.addEventListener('click', deleteCompletedTaskHandler);
   });
 }
 
@@ -298,13 +317,24 @@ render();
 function createList(newListName) {
   return {
     id: Date.now(),
-    name: newListName,
+    listname: newListName,
     tasks: [],
   };
 }
 
 function createTask(time, newTaskName) {
-  return { id: Date.now(), time: time, name: newTaskName, complete: false };
+  return { id: Date.now(), time: time, taskname: newTaskName, complete: false };
+}
+
+function createCompletedTask(
+  listid,
+  taskid,
+  listname,
+  taskname,
+  time,
+  complete
+) {
+  return { listid, taskid, listname, taskname, time, complete };
 }
 
 function addListHandler(e) {
@@ -364,19 +394,21 @@ function taskCountHandler(e) {
 
 function clearTaskHander() {
   const selectedList = lists.find(list => list.id === +selectedListId);
-
   const completedTasksArr = selectedList.tasks.filter(task => task.complete);
-
   completedTasksArr.forEach(v => {
-    completedTasks.push(v);
+    let completedTask = createCompletedTask(
+      +selectedListId,
+      v.id,
+      selectedList.listname,
+      v.taskname,
+      v.time,
+      v.complete
+    );
+    completedTasks.push(completedTask);
   });
-
-  console.log(completedTasks);
-
   selectedList.tasks = selectedList.tasks.filter(
     task => task.complete === false
   );
-
   saveAndRender();
 }
 
@@ -392,15 +424,31 @@ function modifyTaskHandler(e, newInput) {
   const selectedList = lists.find(list => list.id === +selectedListId);
   selectedList.tasks.map(task => {
     if (task.id === +e.target.id) {
-      task.name = newInput;
+      task.taskname = newInput;
       save();
     }
   });
 }
 
-function taskSettingHandler(e) {
+function taskSettingHandler() {
   $todoList.classList.toggle('hidden');
   $completedTasks.classList.toggle('hidden');
+  $taskList.classList.toggle('hidden');
+  $completedTaskTitle.classList.toggle('hidden');
+  $progress.classList.toggle('hidden');
+  $newListForm.classList.toggle('hidden');
+  $manageTask.classList.toggle('hidden');
+  if (lists.length === 0) {
+    $notifyList.classList.toggle('hidden');
+  }
+  $notifyTask.classList.toggle('hidden');
+  renderCompletedTask();
+}
+
+function deleteCompletedTaskHandler(e) {
+  console.log(e.target);
+  completedTasks = completedTasks.filter(task => task.taskid !== +e.target.id);
+  save();
   renderCompletedTask();
 }
 

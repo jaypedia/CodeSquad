@@ -18,6 +18,7 @@
   /* Font size */
   --font-large: 36px;
   --font-medium: 22px;
+  --font-regular: 20px;
   --font-small: 18px;
   --font-micro: 14px;
 
@@ -99,7 +100,7 @@ html {
 body {
   width: 80%;
   max-width: 1200px;
-  height: 70%;
+  height: 700px;
   margin: 0;
   padding: 0;
   display: grid;
@@ -520,6 +521,30 @@ input:focus::placeholder {
 }
 
 .completed-task {
-  padding-bottom: var(--size-padding-small);
+  padding: 7px 0 7px 0;
   font-size: var(--font-small);
+}
+
+.check-icon {
+  margin-right: 5px;
+  color: var(--color-pink);
+}
+
+.revert-completed-task-btn {
+  font-size: var(--font-small);
+  color: var(--color-dark-purple);
+}
+
+.delete-completed-task-btn {
+  font-size: var(--font-small);
+  color: var(--color-light-grey);
+}
+
+.completed-list-name {
+  background-color: var(--color-white);
+  font-size: var(--font-regular);
+  font-weight: var(--weight-bold);
+  margin-right: 5px;
+  padding: 5px;
+  border-radius: 10px;
 }

@@ -263,6 +263,7 @@ function editHandler({
 
 function renderCompletedTask() {
   clearElement($completedTasks);
+  renderCompletedTaskCount();
   completedTasks.forEach(task => {
     const $listElement = document.createElement('div');
     const $checkIcon = document.createElement('span');
@@ -279,7 +280,7 @@ function renderCompletedTask() {
     $taskName.innerHTML = task.taskname;
     $revertBtn.className = 'revert-completed-task-btn';
     $deleteBtn.className = 'delete-completed-task-btn';
-    $revertBtn.innerHTML = `<i class="fas fa-reply" id=${task.taskid}></i>`;
+    $revertBtn.innerHTML = `<i class="fas fa-reply" id=${task.listid}></i>`;
     $deleteBtn.innerHTML = `<i class="fas fa-trash" id=${task.taskid}></i>`;
     $listElement.appendChild($checkIcon);
     $listElement.appendChild($listName);
@@ -288,8 +289,15 @@ function renderCompletedTask() {
     $listElement.appendChild($deleteBtn);
     $completedTasks.appendChild($listElement);
 
+    $revertBtn.addEventListener('click', e => {
+      revertCompletedTaskHandler(e, task.taskid, task.taskname, task.time);
+    });
     $deleteBtn.addEventListener('click', deleteCompletedTaskHandler);
   });
+}
+
+function renderCompletedTaskCount() {
+  $completedTaskCount.innerHTML = completedTasks.length;
 }
 
 function editFinishHandler({ $modifyForm, $taskName, $modifyTaskBtn }) {
@@ -336,6 +344,10 @@ function createCompletedTask(
   complete
 ) {
   return { listid, taskid, listname, taskname, time, complete };
+}
+
+function createRevertedTask(id, taskname, time) {
+  return { id, taskname, time, complete: false };
 }
 
 function addListHandler(e) {
@@ -438,18 +450,30 @@ function taskSettingHandler() {
   $completedTaskTitle.classList.toggle('hidden');
   $progress.classList.toggle('hidden');
   $completedTaskCount.classList.toggle('hidden');
-  $completedTaskCount.innerHTML = completedTasks.length;
   $newListForm.classList.toggle('hidden');
   $manageTask.classList.toggle('hidden');
   if (lists.length === 0) {
     $notifyList.classList.toggle('hidden');
   }
-  $notifyTask.classList.toggle('hidden');
+  const selectedList = lists.find(list => list.id === +selectedListId);
+  if (selectedList.tasks.length === 0) {
+    $notifyTask.classList.toggle('hidden');
+  }
   renderCompletedTask();
 }
 
+function revertCompletedTaskHandler(e, taskid, taskname, time) {
+  const theList = lists.find(list => list.id === +e.target.id);
+  const revertedTask = createRevertedTask(taskid, taskname, time);
+  theList.tasks.push(revertedTask);
+  completedTasks = completedTasks.filter(
+    task => task.taskid !== revertedTask.id
+  );
+  renderCompletedTask();
+  saveAndRender();
+}
+
 function deleteCompletedTaskHandler(e) {
-  console.log(e.target);
   completedTasks = completedTasks.filter(task => task.taskid !== +e.target.id);
   save();
   renderCompletedTask();

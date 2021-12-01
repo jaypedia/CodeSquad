@@ -503,6 +503,7 @@ input:focus::placeholder {
 .completed-task-title {
   font-size: var(--font-medium);
   color: var(--color-white);
+  background-color: var(--color-pink);
   text-align: center;
   font-weight: var(--weight-bold);
   margin-top: 10px;
@@ -547,4 +548,12 @@ input:focus::placeholder {
   margin-right: 5px;
   padding: 5px;
   border-radius: 10px;
+}
+
+.completed-task-count {
+  background-color: var(--color-pink);
+  color: var(--color-white);
+  font-size: var(--font-regular);
+  padding: 2px 8px 2px 8px;
+  border-radius: 50%;
 }

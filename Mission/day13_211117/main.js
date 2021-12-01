@@ -29,6 +29,7 @@ const $progressBar = $('[data-progress-bar]');
 const $completedTaskTitle = $('[data-completed-task-title]');
 const $completedTasks = $('[data-completed-tasks]');
 const $manageTask = $('[data-manage-task]');
+const $completedTaskCount = $('[data-completed-task-count]');
 
 const $listLetterCounter = $('[data-list-letter-counter]');
 const $taskLetterCounter = $('[data-task-letter-counter]');
@@ -436,6 +437,8 @@ function taskSettingHandler() {
   $taskList.classList.toggle('hidden');
   $completedTaskTitle.classList.toggle('hidden');
   $progress.classList.toggle('hidden');
+  $completedTaskCount.classList.toggle('hidden');
+  $completedTaskCount.innerHTML = completedTasks.length;
   $newListForm.classList.toggle('hidden');
   $manageTask.classList.toggle('hidden');
   if (lists.length === 0) {

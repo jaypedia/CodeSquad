@@ -20,13 +20,20 @@
         title="Delete List"
       ></i>
       <p class="title">My Todo List</p>
-      <i class="fas fa-circle task-setting" data-task-setting-button></i>
+      <i
+        class="fas fa-circle task-setting"
+        data-task-setting-button
+        title="Completed Tasks"
+      ></i>
     </header>
 
     <aside>
       <div class="my-lists">
         <span class="notify list" data-notify-list>+ Add your list first</span>
         <ul class="task-list" data-lists></ul>
+        <div class="completed-task-title hidden" data-completed-task-title>
+          Completed Task
+        </div>
       </div>
       <div class="manage-list">
         <div class="new-list-creator">
@@ -63,14 +70,15 @@
           <span class="day"></span>
           <span class="time"></span>
         </p>
-        <div class="progress">
+        <div class="progress" data-progress>
           <div class="progress-bar" data-progress-bar>
-            <p class="info__task-count" data-task-count></p>
+            <p class="info__task-count" data-task-count>0%</p>
           </div>
         </div>
       </div>
       <div class="todo-inner-container">
         <div class="todo-list" data-todo-list></div>
+        <div class="completed-tasks hidden" data-completed-tasks></div>
         <div class="manage-task">
           <div class="new-task-creator">
             <form action="" data-new-task-form>

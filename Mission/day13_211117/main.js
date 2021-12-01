@@ -13,6 +13,7 @@ const $newListForm = $('[data-new-list-form]');
 const $newListInput = $('[data-new-list-input]');
 const $newListBtn = $('[data-new-list-button]');
 const $editListBtn = $('[data-edit-list-button]');
+const $taskSettingBtn = $('[data-task-setting-button]');
 const $listSettingBtn = $('[data-list-setting-button]');
 
 const $main = $('[data-main]');
@@ -23,7 +24,10 @@ const $newTaskInput = $('[data-new-task-input]');
 const $newTaskBtn = $('[data-new-task-button]');
 const $taskTemplate = $('#task-template');
 const $clearTaskBtn = $('[data-clear-complete-tasks-button]');
+const $progress = $('[data-progress]');
 const $progressBar = $('[data-progress-bar]');
+const $completedTaskTitle = $('[data-completed-task-title]');
+const $completedTasks = $('[data-completed-tasks]');
 
 const $listLetterCounter = $('[data-list-letter-counter]');
 const $taskLetterCounter = $('[data-task-letter-counter]');
@@ -38,8 +42,11 @@ const $time = $('.time');
 
 const LOCAL_STORAGE_LIST_KEY = 'task.lists';
 const LOCAL_STORAGE_SELECTED_LIST_ID_KEY = 'selected.selectedListId';
+const LOCAL_STORAGE_COMPLETED_TASK_KEY = 'task.completed';
 let lists = JSON.parse(localStorage.getItem(LOCAL_STORAGE_LIST_KEY)) || [];
 let selectedListId = localStorage.getItem(LOCAL_STORAGE_SELECTED_LIST_ID_KEY);
+let completedTasks =
+  JSON.parse(localStorage.getItem(LOCAL_STORAGE_COMPLETED_TASK_KEY)) || [];
 
 function displayDateTime() {
   const today = new Date();
@@ -65,7 +72,7 @@ function render() {
 
   const selectedList = lists.find(list => list.id === +selectedListId);
   if (selectedListId) {
-    $taskCount.classList.remove('invisible');
+    $progress.classList.remove('invisible');
     $todoList.classList.remove('invisible');
     renderTaskCount(selectedList);
     clearElement($todoList);
@@ -77,7 +84,7 @@ function render() {
       $notifyTask.textContent = '+ Add your task';
     }
   } else {
-    $taskCount.classList.add('invisible');
+    $progress.classList.add('invisible');
     $todoList.classList.add('invisible');
     $notifyTask.classList.remove('invisible');
     $notifyTask.textContent = 'Select your list';
@@ -113,7 +120,8 @@ function renderList() {
 function renderTaskCount(selectedList) {
   const taskCount = selectedList.tasks.length;
   if (!taskCount) {
-    $taskCount.textContent = '';
+    $taskCount.textContent = '0%';
+    $progressBar.style.width = '1%';
     return;
   }
   const completeTasksCount = selectedList.tasks.filter(
@@ -125,7 +133,7 @@ function renderTaskCount(selectedList) {
   $taskCount.textContent = `${percentageOfCompletedTask}%`;
   $progressBar.style.width = percentageOfCompletedTask
     ? `${percentageOfCompletedTask - PROGRSSBAR_MARGIN}%`
-    : 0;
+    : '0%';
 }
 
 function renderTask(selectedList) {
@@ -251,6 +259,19 @@ function editHandler({
   return;
 }
 
+function renderCompletedTask() {
+  $taskList.classList.toggle('hidden');
+  $completedTaskTitle.classList.toggle('hidden');
+  $progress.classList.toggle('hidden');
+  clearElement($completedTasks);
+  completedTasks.forEach(task => {
+    const listElement = document.createElement('div');
+    listElement.className = 'completed-task';
+    listElement.innerHTML = task.name;
+    $completedTasks.appendChild(listElement);
+  });
+}
+
 function editFinishHandler({ $modifyForm, $taskName, $modifyTaskBtn }) {
   $modifyForm.classList.add(CLASSNAME.HIDDEN);
   $taskName.classList.remove(CLASSNAME.HIDDEN);
@@ -261,6 +282,10 @@ function editFinishHandler({ $modifyForm, $taskName, $modifyTaskBtn }) {
 function save() {
   localStorage.setItem(LOCAL_STORAGE_LIST_KEY, JSON.stringify(lists));
   localStorage.setItem(LOCAL_STORAGE_SELECTED_LIST_ID_KEY, selectedListId);
+  localStorage.setItem(
+    LOCAL_STORAGE_COMPLETED_TASK_KEY,
+    JSON.stringify(completedTasks)
+  );
 }
 
 function saveAndRender() {
@@ -339,9 +364,19 @@ function taskCountHandler(e) {
 
 function clearTaskHander() {
   const selectedList = lists.find(list => list.id === +selectedListId);
+
+  const completedTasksArr = selectedList.tasks.filter(task => task.complete);
+
+  completedTasksArr.forEach(v => {
+    completedTasks.push(v);
+  });
+
+  console.log(completedTasks);
+
   selectedList.tasks = selectedList.tasks.filter(
     task => task.complete === false
   );
+
   saveAndRender();
 }
 
@@ -363,6 +398,12 @@ function modifyTaskHandler(e, newInput) {
   });
 }
 
+function taskSettingHandler(e) {
+  $todoList.classList.toggle('hidden');
+  $completedTasks.classList.toggle('hidden');
+  renderCompletedTask();
+}
+
 $newListForm.addEventListener('submit', addListHandler);
 $newListBtn.addEventListener('click', addListHandler);
 $newTaskForm.addEventListener('submit', addTaskHandler);
@@ -373,3 +414,5 @@ $taskList.addEventListener('click', selectListHandler);
 $listSettingBtn.addEventListener('click', deleteListHandler);
 $todoList.addEventListener('click', taskCountHandler);
 $clearTaskBtn.addEventListener('click', clearTaskHander);
+
+$taskSettingBtn.addEventListener('click', taskSettingHandler);

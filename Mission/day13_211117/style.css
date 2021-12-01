@@ -498,3 +498,28 @@ input:focus::placeholder {
   padding: 2px;
   margin: 2px;
 }
+
+.completed-task-title {
+  font-size: var(--font-medium);
+  color: var(--color-white);
+  text-align: center;
+  font-weight: var(--weight-bold);
+  margin-top: 10px;
+  border: 3px var(--color-white) solid;
+  border-radius: 10px;
+  padding: 10px;
+}
+
+.completed-tasks {
+  padding: var(--size-padding-small);
+  padding-top: 0;
+  padding-bottom: 0;
+  margin-bottom: 20px;
+  overflow-y: scroll;
+  height: 480px;
+}
+
+.completed-task {
+  padding-bottom: var(--size-padding-small);
+  font-size: var(--font-small);
+}

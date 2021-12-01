@@ -225,9 +225,9 @@ main .info .info__date .date {
   font-weight: var(--weight-bold);
 }
 
-main .info .task-count {
-  font-size: var(--font-micro);
-  color: var(--color-dark-purple);
+main .info__task-count {
+  font-size: var(--font-small);
+  color: var(--color-light-white);
 }
 
 main .info::after {
@@ -440,7 +440,7 @@ input:focus::placeholder {
   opacity: 0;
 }
 
-.todo-container {
+.todo-inner-container {
   display: flex;
   height: 100%;
   flex-direction: column;
@@ -473,7 +473,7 @@ input:focus::placeholder {
 }
 
 .task-count-circle {
-  font-size: var(--font-small);
+  font-size: var(--font-micro);
   margin-left: 5px;
   padding: 2px 6px 2px 6px;
   background-color: var(--color-white);
@@ -481,11 +481,20 @@ input:focus::placeholder {
   color: var(--color-purple);
 }
 
-label:hover {
-  background-color: #ffffff55;
+.task.input {
+  margin-bottom: 0;
+}
+.progress {
+  width: 250px;
+  background-color: var(--color-white);
   border-radius: 10px;
 }
 
-.task.input {
-  margin-bottom: 0;
+.progress-bar {
+  width: 1%;
+  background-color: var(--color-purple);
+  border-radius: 10px;
+  transition: all var(--animation-duration) ease;
+  padding: 2px;
+  margin: 2px;
 }

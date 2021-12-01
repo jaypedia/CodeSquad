@@ -6,6 +6,7 @@ const CLASSNAME = {
   LIST_NAME: 'list-name',
   ACTIVE_LIST: 'active-list',
 };
+const PROGRSSBAR_MARGIN = 2;
 
 const $taskList = $('[data-lists]');
 const $newListForm = $('[data-new-list-form]');
@@ -22,6 +23,7 @@ const $newTaskInput = $('[data-new-task-input]');
 const $newTaskBtn = $('[data-new-task-button]');
 const $taskTemplate = $('#task-template');
 const $clearTaskBtn = $('[data-clear-complete-tasks-button]');
+const $progressBar = $('[data-progress-bar]');
 
 const $listLetterCounter = $('[data-list-letter-counter]');
 const $taskLetterCounter = $('[data-task-letter-counter]');
@@ -120,8 +122,10 @@ function renderTaskCount(selectedList) {
   const percentageOfCompletedTask = Math.round(
     (completeTasksCount / taskCount) * 100
   );
-  // $taskCount.textContent = `${completeTasksCount} / ${taskCount}`
   $taskCount.textContent = `${percentageOfCompletedTask}%`;
+  $progressBar.style.width = percentageOfCompletedTask
+    ? `${percentageOfCompletedTask - PROGRSSBAR_MARGIN}%`
+    : 0;
 }
 
 function renderTask(selectedList) {
@@ -196,6 +200,14 @@ function renderTask(selectedList) {
     $modifyTaskInput.addEventListener('input', e => {
       newInput = e.target.value;
     });
+
+    /*
+    $modifyTaskInput.addEventListener('focusout', e => {
+      editFinishHandler({ $modifyForm, $taskName, $modifyTaskBtn });
+      modifyTaskHandler(e, newInput);
+      render();
+    });
+    */
 
     $todoList.appendChild(taskElement);
     //  taskElement.scrollIntoView({ block: 'center', behavior: 'smooth' });

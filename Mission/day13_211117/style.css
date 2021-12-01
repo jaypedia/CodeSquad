@@ -139,9 +139,16 @@ header .list-setting {
 header .task-setting {
   cursor: pointer;
   color: var(--color-light-purple);
+  transition: all var(--animation-duration) ease;
 }
 header .list-setting:hover {
-  opacity: 0.7;
+  color: var(--color-purple);
+  transform: scale(1.2);
+}
+
+header .task-setting:hover {
+  color: var(--color-pink);
+  transform: scale(1.2);
 }
 
 /* Side bar */
@@ -556,4 +563,49 @@ input:focus::placeholder {
   font-size: var(--font-regular);
   padding: 2px 8px 2px 8px;
   border-radius: 50%;
+}
+
+.completed-task-btn {
+  font-size: var(--font-small);
+  color: var(--color-black);
+  background-color: var(--color-pink);
+  border-radius: 10px;
+  transition: all var(--animation-duration) ease;
+  position: absolute;
+  right: 12px;
+  z-index: 1;
+}
+
+.completed-task-btn:hover {
+  /* transform: scale(1.1); */
+  color: var(--color-white);
+}
+
+.appear {
+  animation: fade-in 0.3s;
+  animation-fill-mode: forwards;
+  display: flex;
+}
+
+.disappear {
+  animation: fade-out 1s;
+  animation-fill-mode: forwards;
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fade-out {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
 }

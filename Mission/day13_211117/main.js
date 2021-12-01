@@ -30,6 +30,7 @@ const $completedTaskTitle = $('[data-completed-task-title]');
 const $completedTasks = $('[data-completed-tasks]');
 const $manageTask = $('[data-manage-task]');
 const $completedTaskCount = $('[data-completed-task-count]');
+const $completedTaskBtn = $('[data-completed-task-btn]');
 
 const $listLetterCounter = $('[data-list-letter-counter]');
 const $taskLetterCounter = $('[data-task-letter-counter]');
@@ -479,6 +480,25 @@ function deleteCompletedTaskHandler(e) {
   renderCompletedTask();
 }
 
+let timeout;
+function showCompletedTaskBtnHandler() {
+  timeout = setTimeout(() => {
+    $completedTaskBtn.classList.remove('hidden');
+    $completedTaskBtn.classList.remove('disappear');
+    $completedTaskBtn.classList.add('appear');
+  }, 500);
+}
+
+function hideCompletedTaskBtnHandler() {
+  if ($completedTaskBtn.classList.contains('appear')) {
+    $completedTaskBtn.classList.add('disappear');
+    setTimeout(() => {
+      $completedTaskBtn.classList.remove('appear');
+      $completedTaskBtn.classList.add('hidden');
+    }, 1000);
+  }
+}
+
 $newListForm.addEventListener('submit', addListHandler);
 $newListBtn.addEventListener('click', addListHandler);
 $newTaskForm.addEventListener('submit', addTaskHandler);
@@ -490,4 +510,6 @@ $listSettingBtn.addEventListener('click', deleteListHandler);
 $todoList.addEventListener('click', taskCountHandler);
 $clearTaskBtn.addEventListener('click', clearTaskHander);
 
-$taskSettingBtn.addEventListener('click', taskSettingHandler);
+$completedTaskBtn.addEventListener('click', taskSettingHandler);
+$taskSettingBtn.addEventListener('mouseover', showCompletedTaskBtnHandler);
+$completedTaskBtn.addEventListener('mouseout', hideCompletedTaskBtnHandler);

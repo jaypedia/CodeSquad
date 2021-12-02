@@ -658,3 +658,10 @@ input:focus::placeholder {
   padding: 10px;
   color: var(--color-dark-grey);
 }
+
+.modal__task-name {
+  font-size: var(--font-regular);
+  color: var(--color-dark-purple);
+  font-weight: var(--weight-bold);
+  padding: 10px;
+}

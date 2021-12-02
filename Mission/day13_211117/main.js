@@ -47,6 +47,7 @@ const $modal = $('[data-modal]');
 const $modalCheckBtn = $('[data-modal-check-button]');
 const $modalCancelBtn = $('[data-modal-cancel-button]');
 const $modalNotice = $('[data-modal-notice]');
+const $modalTaskName = $('[data-modal-task-name]');
 
 const LOCAL_STORAGE_LIST_KEY = 'task.lists';
 const LOCAL_STORAGE_SELECTED_LIST_ID_KEY = 'selected.selectedListId';
@@ -186,7 +187,9 @@ function renderTask(selectedList) {
       $deleteTaskBtn.classList.add('hidden');
     });
 
-    $deleteTaskBtn.addEventListener('click', deleteTaskHandler);
+    $deleteTaskBtn.addEventListener('click', e => {
+      openModalToDeleteTaskBtn(e, task.taskname, deleteTaskHandler);
+    });
 
     $modifyTaskBtn.addEventListener('click', e => {
       if (e.target.className.includes(CLASSNAME.EDIT_BUTTON)) {
@@ -298,7 +301,9 @@ function renderCompletedTask() {
     $revertBtn.addEventListener('click', e => {
       revertCompletedTaskHandler(e, task.taskid, task.taskname, task.time);
     });
-    $deleteBtn.addEventListener('click', deleteCompletedTaskHandler);
+    $deleteBtn.addEventListener('click', e => {
+      openModalToDeleteTaskBtn(e, task.taskname, deleteCompletedTaskHandler);
+    });
   });
 }
 
@@ -504,11 +509,11 @@ function hideCompletedTaskBtnHandler() {
   }
 }
 
-function openModal() {
+function openModalToClearTaskBtn() {
   const selectedList = lists.find(list => list.id === +selectedListId);
   const completedTasksArr = selectedList.tasks.filter(task => task.complete);
   $modal.classList.remove('hidden');
-
+  $modalTaskName.classList.add('hidden');
   $modalCancelBtn.addEventListener('click', () => {
     $modal.classList.add('hidden');
   });
@@ -529,6 +534,22 @@ function openModal() {
   });
 }
 
+function openModalToDeleteTaskBtn(e, taskname, callback) {
+  $modal.classList.remove('hidden');
+  $modalCheckBtn.classList.remove('hidden');
+  $modalTaskName.classList.remove('hidden');
+
+  $modalCancelBtn.addEventListener('click', () => {
+    $modal.classList.add('hidden');
+  });
+  $modalNotice.innerHTML = `This task will be permanently deleted. Are you sure?`;
+  $modalCheckBtn.addEventListener('click', () => {
+    callback(e);
+    $modal.classList.add('hidden');
+  });
+  $modalTaskName.innerHTML = taskname;
+}
+
 $newListForm.addEventListener('submit', addListHandler);
 $newListBtn.addEventListener('click', addListHandler);
 $newTaskForm.addEventListener('submit', addTaskHandler);
@@ -538,7 +559,7 @@ $taskList.addEventListener('click', selectListHandler);
 // $editListBtn.addEventListener('click', editListHandler);
 $listSettingBtn.addEventListener('click', deleteListHandler);
 $todoList.addEventListener('click', taskCountHandler);
-$clearTaskBtn.addEventListener('click', openModal);
+$clearTaskBtn.addEventListener('click', openModalToClearTaskBtn);
 
 $completedTaskBtn.addEventListener('click', taskSettingHandler);
 $taskSettingBtn.addEventListener('mouseover', showCompletedTaskBtnHandler);

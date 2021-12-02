@@ -565,19 +565,47 @@ input:focus::placeholder {
   border-radius: 50%;
 }
 
-.completed-task-btn {
-  font-size: var(--font-small);
-  color: var(--color-black);
-  background-color: var(--color-pink);
-  border-radius: 10px;
-  transition: all var(--animation-duration) ease;
+.header-list-btns {
   position: absolute;
-  right: 12px;
+  width: 200px;
+  height: 25px;
+  top: 8px;
   z-index: 1;
 }
 
+.headerbtn {
+  font-size: var(--font-small);
+  color: var(--color-black);
+  border-radius: 10px;
+  transition: all var(--animation-duration) ease;
+  position: absolute;
+  z-index: 1;
+}
+
+.edit-list-btn {
+  background-color: var(--color-white);
+}
+
+.delete-list-btn {
+  background-color: var(--color-white);
+  left: 85px;
+}
+
+.completed-task-btn {
+  background-color: var(--color-pink);
+  right: 12px;
+}
+
+.edit-list-btn:hover {
+  background-color: var(--color-light-purple);
+}
+
+.delete-list-btn:hover {
+  color: var(--color-white);
+  background-color: var(--color-grey);
+}
+
 .completed-task-btn:hover {
-  /* transform: scale(1.1); */
   color: var(--color-white);
 }
 

@@ -12,7 +12,6 @@ const $taskList = $('[data-lists]');
 const $newListForm = $('[data-new-list-form]');
 const $newListInput = $('[data-new-list-input]');
 const $newListBtn = $('[data-new-list-button]');
-const $editListBtn = $('[data-edit-list-button]');
 const $taskSettingBtn = $('[data-task-setting-button]');
 const $listSettingBtn = $('[data-list-setting-button]');
 
@@ -48,6 +47,10 @@ const $modalCheckBtn = $('[data-modal-check-button]');
 const $modalCancelBtn = $('[data-modal-cancel-button]');
 const $modalNotice = $('[data-modal-notice]');
 const $modalTaskName = $('[data-modal-task-name]');
+
+const $headerListBtns = $('[data-header-list-btns]');
+const $editListBtn = $('[data-edit-list-btn]');
+const $deleteListBtn = $('[data-delete-list-btn]');
 
 const LOCAL_STORAGE_LIST_KEY = 'task.lists';
 const LOCAL_STORAGE_SELECTED_LIST_ID_KEY = 'selected.selectedListId';
@@ -188,7 +191,7 @@ function renderTask(selectedList) {
     });
 
     $deleteTaskBtn.addEventListener('click', e => {
-      openModalToDeleteTaskBtn(e, task.taskname, deleteTaskHandler);
+      openModalToDelete(e, task.taskname, deleteTaskHandler, 'task');
     });
 
     $modifyTaskBtn.addEventListener('click', e => {
@@ -302,7 +305,7 @@ function renderCompletedTask() {
       revertCompletedTaskHandler(e, task.taskid, task.taskname, task.time);
     });
     $deleteBtn.addEventListener('click', e => {
-      openModalToDeleteTaskBtn(e, task.taskname, deleteCompletedTaskHandler);
+      openModalToDelete(e, task.taskname, deleteCompletedTaskHandler, 'task');
     });
   });
 }
@@ -397,7 +400,7 @@ function addTaskHandler(e) {
   $newTaskInput.focus();
 }
 
-function deleteListHandler() {
+function deleteList() {
   localStorage.removeItem(LOCAL_STORAGE_SELECTED_LIST_ID_KEY);
   lists = lists.filter(list => list.id !== Number(selectedListId));
   selectedListId = null;
@@ -491,20 +494,20 @@ function deleteCompletedTaskHandler(e) {
 }
 
 let timeout;
-function showCompletedTaskBtnHandler() {
+function showBtnHandler(target) {
   timeout = setTimeout(() => {
-    $completedTaskBtn.classList.remove('hidden');
-    $completedTaskBtn.classList.remove('disappear');
-    $completedTaskBtn.classList.add('appear');
+    target.classList.remove('hidden');
+    target.classList.remove('disappear');
+    target.classList.add('appear');
   }, 500);
 }
 
-function hideCompletedTaskBtnHandler() {
-  if ($completedTaskBtn.classList.contains('appear')) {
-    $completedTaskBtn.classList.add('disappear');
+function hideBtnHandler(target) {
+  if (target.classList.contains('appear')) {
+    target.classList.add('disappear');
     setTimeout(() => {
-      $completedTaskBtn.classList.remove('appear');
-      $completedTaskBtn.classList.add('hidden');
+      target.classList.remove('appear');
+      target.classList.add('hidden');
     }, 1000);
   }
 }
@@ -534,7 +537,7 @@ function openModalToClearTaskBtn() {
   });
 }
 
-function openModalToDeleteTaskBtn(e, taskname, callback) {
+function openModalToDelete(e, name, callback, object) {
   $modal.classList.remove('hidden');
   $modalCheckBtn.classList.remove('hidden');
   $modalTaskName.classList.remove('hidden');
@@ -542,12 +545,28 @@ function openModalToDeleteTaskBtn(e, taskname, callback) {
   $modalCancelBtn.addEventListener('click', () => {
     $modal.classList.add('hidden');
   });
-  $modalNotice.innerHTML = `This task will be permanently deleted. Are you sure?`;
+  $modalNotice.innerHTML = `This ${object} will be permanently deleted. Are you sure?`;
   $modalCheckBtn.addEventListener('click', () => {
     callback(e);
     $modal.classList.add('hidden');
   });
-  $modalTaskName.innerHTML = taskname;
+  $modalTaskName.innerHTML = name;
+}
+
+function deleteListHandler(e) {
+  if (selectedListId === null) {
+    $modal.classList.remove('hidden');
+    $modalTaskName.classList.add('hidden');
+    $modalCancelBtn.addEventListener('click', () => {
+      $modal.classList.add('hidden');
+    });
+    $modalNotice.innerHTML =
+      'There is no selected list to delete, or the list does not exist.';
+    $modalCheckBtn.classList.add('hidden');
+    return;
+  }
+  const selectedList = lists.find(list => list.id === +selectedListId);
+  openModalToDelete(e, selectedList.listname, deleteList, 'list');
 }
 
 $newListForm.addEventListener('submit', addListHandler);
@@ -557,10 +576,23 @@ $newTaskBtn.addEventListener('click', addTaskHandler);
 
 $taskList.addEventListener('click', selectListHandler);
 // $editListBtn.addEventListener('click', editListHandler);
-$listSettingBtn.addEventListener('click', deleteListHandler);
+$deleteListBtn.addEventListener('click', deleteListHandler);
+
 $todoList.addEventListener('click', taskCountHandler);
 $clearTaskBtn.addEventListener('click', openModalToClearTaskBtn);
-
 $completedTaskBtn.addEventListener('click', taskSettingHandler);
-$taskSettingBtn.addEventListener('mouseover', showCompletedTaskBtnHandler);
-$completedTaskBtn.addEventListener('mouseout', hideCompletedTaskBtnHandler);
+
+$taskSettingBtn.addEventListener('mouseover', () => {
+  showBtnHandler($completedTaskBtn);
+});
+$completedTaskBtn.addEventListener('mouseout', () => {
+  hideBtnHandler($completedTaskBtn);
+});
+
+$listSettingBtn.addEventListener('mouseover', () => {
+  showBtnHandler($headerListBtns);
+});
+
+$headerListBtns.addEventListener('mouseleave', () => {
+  hideBtnHandler($headerListBtns);
+});

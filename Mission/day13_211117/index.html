@@ -14,13 +14,20 @@
   </head>
   <body>
     <header>
-      <i
-        class="fas fa-circle list-setting"
-        data-list-setting-button
-        title="Delete List"
-      ></i>
+      <div class="header-list-btns hidden" data-header-list-btns>
+        <button class="headerbtn edit-list-btn" data-edit-list-btn>
+          Edit List
+        </button>
+        <button class="headerbtn delete-list-btn" data-delete-list-btn>
+          Delete List
+        </button>
+      </div>
+      <i class="fas fa-circle list-setting" data-list-setting-button></i>
       <p class="title">My Todo List</p>
-      <button class="completed-task-btn hidden" data-completed-task-btn>
+      <button
+        class="headerbtn completed-task-btn hidden"
+        data-completed-task-btn
+      >
         Completed Tasks
       </button>
       <i class="fas fa-circle task-setting" data-task-setting-button></i>

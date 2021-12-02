@@ -234,7 +234,7 @@ main .info .info__date .date {
 }
 
 main .info__task-count {
-  font-size: var(--font-small);
+  font-size: var(--font-micro);
   color: var(--color-light-white);
 }
 
@@ -500,7 +500,7 @@ input:focus::placeholder {
 
 .progress-bar {
   width: 1%;
-  background-color: var(--color-purple);
+  background: linear-gradient(to right, var(--color-purple), var(--color-pink));
   border-radius: 10px;
   transition: all var(--animation-duration) ease;
   padding: 2px;

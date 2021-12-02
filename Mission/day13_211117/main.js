@@ -43,6 +43,11 @@ const $date = $('.date');
 const $day = $('.day');
 const $time = $('.time');
 
+const $modal = $('[data-modal]');
+const $modalCheckBtn = $('[data-modal-check-button]');
+const $modalCancelBtn = $('[data-modal-cancel-button]');
+const $modalNotice = $('[data-modal-notice]');
+
 const LOCAL_STORAGE_LIST_KEY = 'task.lists';
 const LOCAL_STORAGE_SELECTED_LIST_ID_KEY = 'selected.selectedListId';
 const LOCAL_STORAGE_COMPLETED_TASK_KEY = 'task.completed';
@@ -499,6 +504,31 @@ function hideCompletedTaskBtnHandler() {
   }
 }
 
+function openModal() {
+  const selectedList = lists.find(list => list.id === +selectedListId);
+  const completedTasksArr = selectedList.tasks.filter(task => task.complete);
+  $modal.classList.remove('hidden');
+
+  $modalCancelBtn.addEventListener('click', () => {
+    $modal.classList.add('hidden');
+  });
+
+  if (completedTasksArr.length === 0) {
+    $modalNotice.innerHTML = 'There is no tasks to clear.';
+    $modalCheckBtn.classList.add('hidden');
+    return;
+  }
+
+  $modalNotice.innerHTML =
+    'Checked tasks are sent to Completed Tasks. Are you sure?';
+  $modalCheckBtn.classList.remove('hidden');
+
+  $modalCheckBtn.addEventListener('click', () => {
+    clearTaskHander();
+    $modal.classList.add('hidden');
+  });
+}
+
 $newListForm.addEventListener('submit', addListHandler);
 $newListBtn.addEventListener('click', addListHandler);
 $newTaskForm.addEventListener('submit', addTaskHandler);
@@ -508,7 +538,7 @@ $taskList.addEventListener('click', selectListHandler);
 // $editListBtn.addEventListener('click', editListHandler);
 $listSettingBtn.addEventListener('click', deleteListHandler);
 $todoList.addEventListener('click', taskCountHandler);
-$clearTaskBtn.addEventListener('click', clearTaskHander);
+$clearTaskBtn.addEventListener('click', openModal);
 
 $completedTaskBtn.addEventListener('click', taskSettingHandler);
 $taskSettingBtn.addEventListener('mouseover', showCompletedTaskBtnHandler);

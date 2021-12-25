@@ -18,7 +18,6 @@ export default class HeaderComponent {
     $header.appendChild($title);
     $header.appendChild($taskSettingBtn);
 
-    console.log(this.$target);
     this.$target.appendChild($header);
 
     // Event Listener for listSettingBtn

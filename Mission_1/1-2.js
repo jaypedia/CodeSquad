@@ -1,37 +1,17 @@
-// Half Adder & Full Adder
+// 1-2. Half Adder & Full Adder
 
-import { AND, XOR, OR } from './1-1.js';
+const { and, or, xor } = require('./1-1.js');
 
-function halfAdder(bitA, bitB) {
-  const sum = XOR(bitA, bitB);
-  const carry = AND(bitA, bitB);
-  const answer = [sum, carry];
+const getSum = (bitA, bitB) => xor(bitA, bitB);
+const getCarry = (bitA, bitB) => and(bitA, bitB);
 
-  return answer;
-}
+const halfAdder = (bitA, bitB) => [getSum(bitA, bitB), getCarry(bitA, bitB)];
 
-function fullAdder(bitA, bitB, carryBit) {
-  const first = halfAdder(bitA, bitB);
-  const sum1 = first[0];
-  const carry1 = first[1];
+const fullAdder = (bitA, bitB, carry) => {
+  const [firstSum, firstCarry] = halfAdder(bitA, bitB);
+  const [secondSum, secondCarry] = halfAdder(firstSum, carry);
+  const carryBit = or(firstCarry, secondCarry);
+  return [secondSum, carryBit];
+};
 
-  const second = halfAdder(sum1, carryBit);
-  const sum2 = second[0];
-  const carry2 = second[1];
-
-  const sum = sum2;
-  const carry = OR(carry1, carry2);
-
-  const answer = [sum, carry];
-
-  return answer;
-}
-
-const bitA = true;
-const bitB = false;
-const carryBit = true;
-
-console.log(`
-    ✔️ halfAdder ${halfAdder(bitA, bitB)}
-    ✔️ fullAdder ${fullAdder(bitA, bitB, carryBit)}
-`);
+module.exports = { fullAdder };

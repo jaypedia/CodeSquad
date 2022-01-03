@@ -1,34 +1,16 @@
-// Digital Logic Gate Function
+// 1-1. Digital Logic Gate Functions
 
-export function AND(bitA, bitB) {
-  if (bitA && bitB) return true;
-  return false;
-}
+const and = (bitA, bitB) => bitA && bitB;
 
-export function OR(bitA, bitB) {
-  if (bitA || bitB) return true;
-  return false;
-}
+const or = (bitA, bitB) => bitA || bitB;
 
-function NAND(bitA, bitB) {
-  if (bitA && bitB) return false;
-  return true;
-}
+const nand = (bitA, bitB) => !and(bitA, bitB); // Not and gate
+// const nand = (bitA, bitB) => !(bitA && bitB);
 
-export function XOR(bitA, bitB) {
-  if (bitA !== bitB) return true;
-  return false;
-}
+const nor = (bitA, bitB) => !or(bitA, bitB); // Not or gate
+// const nor = (bitA, bitB) => !(bitA || bitB);
 
-const bitA = true;
-const bitB = false;
+const xor = (bitA, bitB) => (!bitA && bitB) || (bitA && !bitB); // Exclusive Or gate
+// const xor = (bitA, bitB) => bitA !== bitB ? true : false;
 
-console.log(`
-    ********* TEST ********
-    bitA : ${bitA}, bitB : ${bitB}
-
-    AND : ${AND(bitA, bitB)}
-    OR : ${OR(bitA, bitB)}
-    NAND : ${NAND(bitA, bitB)}
-    XOR : ${XOR(bitA, bitB)}
-`);
+module.exports = { and, or, xor };

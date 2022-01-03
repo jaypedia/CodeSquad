@@ -1,11 +1,11 @@
 // Digital Logic Gate Function
 
-function AND(bitA, bitB) {
+export function AND(bitA, bitB) {
   if (bitA && bitB) return true;
   return false;
 }
 
-function OR(bitA, bitB) {
+export function OR(bitA, bitB) {
   if (bitA || bitB) return true;
   return false;
 }
@@ -15,7 +15,7 @@ function NAND(bitA, bitB) {
   return true;
 }
 
-function XOR(bitA, bitB) {
+export function XOR(bitA, bitB) {
   if (bitA !== bitB) return true;
   return false;
 }
@@ -25,7 +25,7 @@ const bitB = false;
 
 console.log(`
     ********* TEST ********
-    bitA : true, bitB : false
+    bitA : ${bitA}, bitB : ${bitB}
 
     AND : ${AND(bitA, bitB)}
     OR : ${OR(bitA, bitB)}

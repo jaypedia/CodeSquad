@@ -12,5 +12,7 @@ const nor = (bitA, bitB) => !or(bitA, bitB); // Not or gate
 
 const xor = (bitA, bitB) => (!bitA && bitB) || (bitA && !bitB); // Exclusive Or gate
 // const xor = (bitA, bitB) => bitA !== bitB ? true : false;
+// const xor = (bitA, bitB) => !(bitA === bitB);
+// const xor = (bitA, bitB) => bitA !== bitB;
 
 module.exports = { and, or, xor };

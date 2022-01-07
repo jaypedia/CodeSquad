@@ -24,3 +24,5 @@ const byteB = [1, 0, 1, 1, 0, 0, 1, 1]; //  11001101
 console.log(`
     ${byteAdder(byteA, byteB)}
 `);
+
+module.exports = { byteAdder };

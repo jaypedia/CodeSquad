@@ -47,12 +47,28 @@ function bin2dec(binary) {
 
 console.log(bin2dec([0, 1, 0, 1]));
 
-// (3) 10진수 2개를 인자로 받아서 각각을 2진수로 변환 후 더한 값을 16진수로 변환하는 함수
+// (3) 추가 미션 : 10진수 2개 => 2진수로 변환해서 합 => 16진수로 변환
 const { byteAdder } = require('./1-3.js');
 
-function dec2binAdd2hex(dec1, dec2) {
-  const result = byteAdder(dec2bin(dec1), dec2bin(dec2));
-  // 16진수로 변환
+// 10진수 2개를 2진수로 변환한 후 두 이진수의 합을 구하는 함수
+function dec2BinAdd(dec1, dec2) {
+  const [bin1, bin2] = [dec2bin(dec1), dec2bin(dec2)];
+  return byteAdder(bin1, bin2);
 }
 
-console.log(dec2binAdd2hex(10, 10));
+// 2진수를 16진수로 변환하기
+function bin2hex(binary) {
+  const answer = [];
+  const hexArr = ['A', 'B', 'C', 'D', 'E', 'F'];
+
+  for (let i = 0; i < binary.length; i += 4) {
+    let dec = binary.slice(i, i + 4).reduce((a, c, i) => a + c * 2 ** i);
+    if (dec < 10) answer.push(dec);
+    else answer.push(hexArr[dec - 10]);
+  }
+
+  return answer;
+}
+
+console.log(dec2BinAdd(10, 10));
+console.log(bin2hex([1, 1, 0, 1]));

@@ -96,3 +96,40 @@ binary.map((v, i) => v * i) 결과 [0, 1, 0, 3]
 2 * 0 + 2 ** 1 + 2 * 0 + 2 ** 3 = 0 + 2 + 0 + 8 = 10
 
 ```
+
+### (3) 2진수 배열을 16진수로 변환하는 함수
+
+- 16진법은 긴 이진수를 짧게 만들 수 있기 때문에 유용하다.
+- 두 기수 모두 **2의 제곱수**이므로 십진수를 이진수로 바꾸는 것보단 간단하다.
+
+##### 1. 2진수의 숫자를 4자리씩 묶는다.
+
+##### 2. 4자리로 묶은 숫자에 2진수의 자리값을 곱한다.
+
+##### 3. 곱한 값을 더하면 16진수가 된다.
+
+```js
+function bin2hex(binary) {
+  const answer = [];
+  const hexArr = ['A', 'B', 'C', 'D', 'E', 'F'];
+
+  for (let i = 0; i < binary.length; i += 4) {
+    // slice로 2진수 배열을 4개씩 잘라 준다.
+    // reduce로 2진수의 자리값을 곱하고 더해 준다.
+    let dec = binary.slice(i, i + 4).reduce((a, c, i) => a + c * 2 ** i);
+
+    // 더한 값이 10 미만이면 그대로 answer 배열에 push하고,
+    // 10 이상이면 10을 뺀 값을 hexArr의 인덱스로 사용해 얻어낸 값을 push한다.
+    if (dec < 10) answer.push(dec);
+    else answer.push(hexArr[dec - 10]);
+  }
+
+  return answer;
+}
+```
+
+---
+
+### Reference
+
+https://ko.wikihow.com/2%EC%A7%84%EC%88%98%EB%A5%BC-16%EC%A7%84%EC%88%98%EB%A1%9C-%EB%B0%94%EA%BE%B8%EB%8A%94-%EB%B2%95

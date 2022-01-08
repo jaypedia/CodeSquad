@@ -19,10 +19,12 @@ function getExponents(decimal, base) {
   return exponents;
 }
 
+console.log(getExponents(10, 2));
+
 function dec2bin(decimal) {
   const exponents = getExponents(decimal, 2);
-  let n = exponents[0];
-  const answer = Array(n + 1).fill(0);
+  const arrLength = exponents[0] + 1;
+  const answer = Array(arrLength).fill(0);
 
   for (let i = 0; i < exponents.length; i++) {
     answer[exponents[i]] = 1;

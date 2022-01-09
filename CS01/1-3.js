@@ -26,3 +26,32 @@ console.log(`
 `);
 
 module.exports = { byteAdder };
+
+// 추가 미션 : 8비트 뿐만 아니라, 4비트나 16비트도 처리 가능한 함수 만들기
+
+function setBitLength(a, b) {
+  let [short, long] = [a, b];
+  if (a.length > b.length) [short, long] = [b, a];
+  short = short.concat(Array(long.length - short.length).fill(0));
+
+  return [short, long];
+}
+
+console.log(setBitLength([1, 1, 0, 1], [1, 1]));
+
+function upgradedByteAdder(byteA, byteB) {
+  const [a, b] = setBitLength(byteA, byteB);
+  const answer = [];
+  let carryBit = 0;
+
+  for (let i = 0; i < a.length; i++) {
+    const [sum, carry] = fullAdder(a[i], b[i], carryBit);
+    answer.push(+sum);
+    carryBit = carry;
+  }
+
+  answer.push(carryBit);
+  return answer;
+}
+
+console.log(upgradedByteAdder([1, 1, 0, 1], [1, 1]));

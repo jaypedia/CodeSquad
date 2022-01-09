@@ -130,6 +130,28 @@ function bin2hex(binary) {
 
 ---
 
+### 추가 미션 : 8비트 뿐만 아니라, 4비트나 16비트도 처리 가능한 함수 만들기
+
+```js
+function setBitLength(a, b) {
+  let [short, long] = [a, b];
+  if (a.length > b.length) [short, long] = [b, a];
+  short = short.concat(Array(long.length - short.length).fill(0));
+
+  return [short, long];
+}
+```
+
+- a와 b, 두 배열의 길이가 다르므로 긴 배열의 길이를 기준으로 짧은 배열에 0을 채워서 길이를 맞춘다.
+
+### 🤔 더 나아가는 질문
+
+##### ❔ 바이트 순서를 큰 비트(Most Significant Bit)를 좌측으로 배치하는 것과 우측으로 배치하는 방식이 구현할 때 어떤 장점이 있는가?
+
+##### ❔ 16진수를 2진법으로 변환하는 함수를 만든다면 어떤 구조가 될까?
+
+---
+
 ### Reference
 
 https://ko.wikihow.com/2%EC%A7%84%EC%88%98%EB%A5%BC-16%EC%A7%84%EC%88%98%EB%A1%9C-%EB%B0%94%EA%BE%B8%EB%8A%94-%EB%B2%95

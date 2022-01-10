@@ -6,6 +6,7 @@ class ClipEditor {
     this.head = null;
     this.tail = null;
     this.length = 0;
+    this.editedClipId = [];
   }
 
   getSelectedClip(id) {
@@ -13,6 +14,10 @@ class ClipEditor {
   }
 
   add(id) {
+    if (this.editedClipId.includes(id)) {
+      this.warn('THIS CLIP IS CURRENTLY BEING EDITED');
+      return;
+    }
     const selectedClip = this.getSelectedClip(id);
     if (!selectedClip) {
       this.warn('NO SUCH CLIP ID');
@@ -26,11 +31,16 @@ class ClipEditor {
       this.tail.next = selectedClip;
       this.tail = selectedClip;
     }
+    this.editedClipId.push(id);
     this.length++;
     this.render('result');
   }
 
   insert(id, idx) {
+    if (this.editedClipId.includes(id)) {
+      this.warn('THIS CLIP IS CURRENTLY BEING EDITED');
+      return;
+    }
     if (idx < 0) return undefined;
     const selectedClip = this.getSelectedClip(id);
     if (!selectedClip) return undefined;
@@ -41,6 +51,7 @@ class ClipEditor {
       const prevClip = this.get(idx - 1);
       selectedClip.next = prevClip.next;
       prevClip.next = selectedClip;
+      this.editedClipId.push(id);
       this.length++;
       this.render('result');
     }
@@ -60,10 +71,14 @@ class ClipEditor {
   delete(id) {
     const selectedClip = this.getSelectedClip(id);
     if (!selectedClip) return undefined;
-
-    const selectedClipIdx = this.getIndex(id);
-    const prevClip = this.get(selectedClipIdx - 1);
-    prevClip.next = selectedClip.next;
+    if (selectedClip === this.head) {
+      this.head = selectedClip.next;
+    } else {
+      const selectedClipIdx = this.getIndex(id);
+      const prevClip = this.get(selectedClipIdx - 1);
+      prevClip.next = selectedClip.next;
+    }
+    this.editedClipId = this.editedClipId.filter(i => i !== id);
     this.length--;
     this.render('result');
   }
@@ -155,5 +170,8 @@ const clipEditor = new ClipEditor(clipList);
 clipEditor.add('aaac');
 clipEditor.add('aaag');
 clipEditor.add('aabd');
+// clipEditor.delete('aabd');
+// console.log(clipEditor.clips);
 clipEditor.render();
 clipEditor.start();
+// console.log(clipEditor.editedClipId);

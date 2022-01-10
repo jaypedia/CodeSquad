@@ -11,7 +11,7 @@ class ClipListMaker {
   constructor(length) {
     this.length = length;
     this.clips = [];
-    this.saveMovieClips();
+    this.save();
   }
 
   getUniqueId = num => {
@@ -23,7 +23,7 @@ class ClipListMaker {
       .join('');
   };
 
-  saveMovieClips = () => {
+  save = () => {
     for (let i = 1; i <= this.length; i++) {
       const duration = Math.floor(Math.random() * 15 + 1);
       const newNode = new Node(`TITLE${i}`, this.getUniqueId(i), duration);
@@ -31,7 +31,7 @@ class ClipListMaker {
     }
   };
 
-  printMovieClips = () => {
+  print = () => {
     console.log(`
 ***** MOVIE CLIPS *****
 [TITLE (ID) : DURATION]
@@ -50,6 +50,7 @@ class ClipListMaker {
 
 const CLIP_COUNT = 13;
 const clipList = new ClipListMaker(CLIP_COUNT);
-clipList.printMovieClips();
+console.log(clipList);
+clipList.print();
 
 module.exports = clipList;

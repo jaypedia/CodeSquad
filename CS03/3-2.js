@@ -34,6 +34,7 @@ class ClipEditor {
     this.editedClipId.push(id);
     this.length++;
     this.render('result');
+    console.log(this.clips);
   }
 
   insert(id, idx) {
@@ -43,7 +44,10 @@ class ClipEditor {
     }
     if (idx < 0) return undefined;
     const selectedClip = this.getSelectedClip(id);
-    if (!selectedClip) return undefined;
+    if (!selectedClip) {
+      this.warn('NO SUCH CLIP ID');
+      return;
+    }
 
     if (idx >= this.length) {
       this.add(id);
@@ -70,7 +74,10 @@ class ClipEditor {
 
   delete(id) {
     const selectedClip = this.getSelectedClip(id);
-    if (!selectedClip) return undefined;
+    if (!selectedClip) {
+      this.warn('NO SUCH CLIP ID');
+      return;
+    }
     if (selectedClip === this.head) {
       this.head = selectedClip.next;
     } else {
@@ -78,6 +85,7 @@ class ClipEditor {
       const prevClip = this.get(selectedClipIdx - 1);
       prevClip.next = selectedClip.next;
     }
+    selectedClip.next = null;
     this.editedClipId = this.editedClipId.filter(i => i !== id);
     this.length--;
     this.render('result');
@@ -94,17 +102,19 @@ class ClipEditor {
   }
 
   render(command) {
-    if (!this.head) return undefined;
+    if (!this.head) {
+      this.warn('NO CLIPS');
+      return;
+    }
+
     let totalSec = 0;
     let result = '[START]---';
     let current = this.head;
-    totalSec += current.duration;
-    result += `[${current.id}, ${current.duration}sec]---`;
 
-    while (current.next) {
-      current = current.next;
-      totalSec += current.duration;
+    while (current) {
       result += `[${current.id}, ${current.duration}sec]---`;
+      totalSec += current.duration;
+      current = current.next;
     }
     result += '[END]';
 
@@ -166,8 +176,8 @@ class ClipEditor {
 const clipEditor = new ClipEditor(clipList);
 
 clipEditor.add('aaac');
-clipEditor.add('aaag');
-clipEditor.add('aabd');
+// clipEditor.add('aaag');
+// clipEditor.add('aabd');
 // clipEditor.delete('aabd');
 // console.log(clipEditor.clips);
 clipEditor.render();

@@ -136,22 +136,20 @@ class ClipEditor {
 
   execute(line) {
     const [command, id, idx] = line.split(' ');
-    switch (command) {
-      case 'add':
-        this.add(id);
-        break;
-      case 'insert':
-        this.insert(id, idx);
-        break;
-      case 'delete':
-        this.delete(id);
-        break;
-      case 'render':
-        this.render();
-        break;
-      default:
-        this.warn('INVALID COMMAND');
+
+    if (!['add', 'insert', 'delete', 'render'].includes(command)) {
+      this.warn('INVALID COMMAND');
+      return;
     }
+
+    const run = {
+      add: () => this.add(id),
+      insert: () => this.insert(id, idx),
+      delete: () => this.delete(id),
+      render: () => this.render(),
+    };
+
+    return run[command]();
   }
 
   warn(reason) {

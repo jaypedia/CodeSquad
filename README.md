@@ -1,6 +1,6 @@
 # CodeSqaud CS10
 
-##### 2022.1.3~2.11 (6 weeks)
+##### 2022.1.3 ~ 2.11 (6 weeks)
 
 > Learn Computer Science by solving 10 missions
 
@@ -26,7 +26,13 @@
 
 #### CS05 (1.17~1.18)
 
+- Operating system
+- Process memory
+
 #### CS06 (1.20~1.21)
+
+- Pure function
+- Functional programming
 
 #### CS07 (1.24~1.25)
 

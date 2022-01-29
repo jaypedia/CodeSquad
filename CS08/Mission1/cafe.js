@@ -14,6 +14,7 @@ const orderQueue = new OrderQueue();
 const manager = new Manager();
 const baristar = new Baristar();
 manager.checkQueue();
+manager.checkOrderCount();
 
 const EventEmitter = require('events');
 const eventEmitter = new EventEmitter();
@@ -24,15 +25,18 @@ orderView.on('order', order => {
 });
 
 eventEmitter.on('newOrder', newOrder => {
+  orderQueue.setNewOrderQuantity(newOrder);
   orderQueue.enqueue(newOrder);
   manager.orderQueue = orderQueue.getQueue();
+  manager.cumulativeOrder += orderQueue.newOrderQuantity;
 });
 
 manager.on('drink', drink => {
-  if (baristar.checkOperationQueue()) {
+  if (baristar.isAvailable()) {
     baristar.start(drink);
     orderQueue.dequeue();
-    if (orderQueue.queue.length <= 0) {
+
+    if (orderQueue.isEmpty()) {
       manager.setOrderExistsFalse();
     }
   }
@@ -44,8 +48,9 @@ baristar.on('start', drink => {
 
 baristar.on('done', drink => {
   baristar.printDone(drink);
+  manager.doneDrinkCount++;
 });
 
-baristar.on('allDone', () => {
-  baristar.printNotification();
+manager.on('allDone', () => {
+  manager.printNotification();
 });

@@ -5,12 +5,16 @@ class Cashier {
 
   takeOrder(order, emitter) {
     this.order = order;
-    this.parseOrder(emitter);
+    this.sendToOrderQueue(emitter);
   }
 
-  parseOrder(emitter) {
+  parseOrder() {
     const [drink, quantity] = this.order.split(':').map(Number);
-    emitter.emit('newOrder', { drink, quantity });
+    return { drink, quantity };
+  }
+
+  sendToOrderQueue(emitter) {
+    emitter.emit('newOrder', this.parseOrder());
   }
 }
 

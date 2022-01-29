@@ -6,6 +6,8 @@ class Manager extends EventEmitter {
     this.orderExists = null;
     this.intervalId = null;
     this.orderQueue = null;
+    this.cumulativeOrder = 0;
+    this.doneDrinkCount = 0;
   }
 
   get firstDrink() {
@@ -20,13 +22,17 @@ class Manager extends EventEmitter {
       }
       if (this.orderExists === null) return;
       if (!this.orderExists) {
-        this.allDone();
+        this.stopCheckQueue();
       }
     }, 1000);
   }
 
   printOrderQueue() {
-    console.log(`\n[📃Manager] Order Queue : ${this.orderQueue.toString()}\n`);
+    console.log(
+      `[📃Manager] Order Queue : ${this.orderQueue.toString()} / Cumulative Order : ${
+        this.cumulativeOrder
+      }\n`
+    );
   }
 
   setOrderExistsTrue() {
@@ -41,8 +47,24 @@ class Manager extends EventEmitter {
     this.emit('drink', drink);
   }
 
-  allDone() {
+  stopCheckQueue() {
     clearInterval(this.intervalId);
+  }
+
+  checkOrderCount() {
+    const intervalId = setInterval(() => {
+      if (
+        this.cumulativeOrder &&
+        this.cumulativeOrder === this.doneDrinkCount
+      ) {
+        this.emit('allDone');
+        clearInterval(intervalId);
+      }
+    }, 1000);
+  }
+
+  printNotification() {
+    console.log('\n[📃Manager] ALL DRINKS ARE DONE! ENJOY :)');
   }
 }
 

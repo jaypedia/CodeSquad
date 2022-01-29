@@ -1,6 +1,11 @@
 class OrderQueue {
   constructor() {
     this.queue = [];
+    this.newOrderQuantity = 0;
+  }
+
+  setNewOrderQuantity(newOrder) {
+    this.newOrderQuantity = newOrder.quantity;
   }
 
   enqueue(newOrder) {
@@ -15,6 +20,10 @@ class OrderQueue {
 
   getQueue() {
     return this.queue;
+  }
+
+  isEmpty() {
+    return this.queue.length <= 0;
   }
 }
 

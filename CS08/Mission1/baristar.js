@@ -9,7 +9,6 @@ class Baristar extends EventEmitter {
     this.operationQueue = [];
     this.max = 2;
     this.currentDrink = null;
-    this.timeoutId = null;
   }
 
   get drinkIdx() {
@@ -29,7 +28,7 @@ class Baristar extends EventEmitter {
   }
 
   makeDrink() {
-    this.timeoutId = setTimeout(() => {
+    setTimeout(() => {
       this.done(this.drinkName);
     }, this.drinkTime);
   }
@@ -49,27 +48,20 @@ class Baristar extends EventEmitter {
     this.emit('done', drink);
   }
 
-  notifyAllDone() {
-    if (this.timeoutId) return;
-    this.emit('allDone');
-  }
-
   enqueue(drink) {
     this.operationQueue.push(drink);
   }
 
   printStart(drink) {
     console.log(
-      `[☕Baristar] START ${drink} / ${moment().format('h:mm:ss a')}`
+      `[☕Baristar] START ${drink} / ${moment().format('h:mm:ss a')}\n`
     );
   }
 
   printDone(drink) {
-    console.log(`[☕Baristar] DONE ${drink} / ${moment().format('h:mm:ss a')}`);
-  }
-
-  printNotification() {
-    console.log('[☕Baristar] ALL DRINKS ARE DONE! ENJOY :)');
+    console.log(
+      `[☕Baristar] DONE ${drink} / ${moment().format('h:mm:ss a')}\n`
+    );
   }
 }
 

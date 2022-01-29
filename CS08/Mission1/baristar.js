@@ -1,10 +1,9 @@
-const EventEmitter = require('events');
 const DashBoard = require('./dashboard');
 const moment = require('moment');
 
-class Baristar extends EventEmitter {
-  constructor() {
-    super();
+class Baristar {
+  constructor(eventEmitter) {
+    this.emitter = eventEmitter;
     this.menu = new DashBoard().menu;
     this.operationQueue = [];
     this.max = 2;
@@ -23,7 +22,7 @@ class Baristar extends EventEmitter {
     return this.menu[this.drinkIdx].time * 1000;
   }
 
-  isAvailable() {
+  get isAvailable() {
     return this.operationQueue.length < this.max;
   }
 
@@ -40,12 +39,12 @@ class Baristar extends EventEmitter {
   start(drink) {
     this.enqueue(drink);
     this.setCurrentDrink();
-    this.emit('start', this.drinkName);
+    this.emitter.emit('startMaking', this.drinkName);
     this.makeDrink();
   }
 
   done(drink) {
-    this.emit('done', drink);
+    this.emitter.emit('EndMaking', drink);
   }
 
   enqueue(drink) {

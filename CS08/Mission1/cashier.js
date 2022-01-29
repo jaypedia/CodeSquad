@@ -1,20 +1,21 @@
 class Cashier {
-  constructor() {
+  constructor(eventEmitter) {
     this.order;
+    this.emitter = eventEmitter;
   }
 
-  takeOrder(order, emitter) {
-    this.order = order;
-    this.sendToOrderQueue(emitter);
+  takeOrder(order) {
+    this.parseOrder(order);
+    this.sendToOrderQueue();
   }
 
-  parseOrder() {
-    const [drink, quantity] = this.order.split(':').map(Number);
-    return { drink, quantity };
+  parseOrder(order) {
+    const [drink, quantity] = order.split(':').map(Number);
+    this.order = { drink, quantity };
   }
 
-  sendToOrderQueue(emitter) {
-    emitter.emit('newOrder', this.parseOrder());
+  sendToOrderQueue() {
+    this.emitter.emit('order', this.order);
   }
 }
 

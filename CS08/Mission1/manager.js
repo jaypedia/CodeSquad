@@ -1,17 +1,30 @@
-const EventEmitter = require('events');
-
-class Manager extends EventEmitter {
-  constructor() {
-    super();
+class Manager {
+  constructor(eventEmitter) {
+    this.emitter = eventEmitter;
     this.orderExists = null;
     this.intervalId = null;
     this.orderQueue = null;
     this.cumulativeOrder = 0;
     this.doneDrinkCount = 0;
+    this.checkQueue();
+    this.checkOrderCount();
   }
 
   get firstDrink() {
     return this.orderQueue[0];
+  }
+
+  increaseDoneDrinkCount() {
+    this.doneDrinkCount++;
+  }
+
+  cumulateOrder(quantity) {
+    this.cumulativeOrder += quantity;
+  }
+
+  takeOrderQueue(orderQueue) {
+    this.orderQueue = orderQueue.queue;
+    this.cumulateOrder(orderQueue.orderQuantity);
   }
 
   checkQueue() {
@@ -44,7 +57,7 @@ class Manager extends EventEmitter {
   }
 
   notifyBaristar(drink) {
-    this.emit('drink', drink);
+    this.emitter.emit('makeDrink', drink);
   }
 
   stopCheckQueue() {
@@ -57,13 +70,13 @@ class Manager extends EventEmitter {
         this.cumulativeOrder &&
         this.cumulativeOrder === this.doneDrinkCount
       ) {
-        this.emit('allDone');
+        this.emitter.emit('allDone');
         clearInterval(intervalId);
       }
     }, 1000);
   }
 
-  printNotification() {
+  printAllDone() {
     console.log('\n[📃Manager] ALL DRINKS ARE DONE! ENJOY :)');
   }
 }

@@ -4,53 +4,47 @@ const OrderQueue = require('./orderQueue');
 const DashBoard = require('./dashBoard');
 const Manager = require('./manager');
 const Baristar = require('./baristar');
-
-const dashBoard = new DashBoard();
-dashBoard.print();
-
-const orderView = new OrderView();
-const cashier = new Cashier();
-const orderQueue = new OrderQueue();
-const manager = new Manager();
-const baristar = new Baristar();
-manager.checkQueue();
-manager.checkOrderCount();
-
 const EventEmitter = require('events');
+
 const eventEmitter = new EventEmitter();
 
-orderView.on('order', order => {
-  cashier.takeOrder(order, eventEmitter);
+new DashBoard().print(); // 왜 constructor에 print 있으면 두 번 프린트될까?
+new OrderView(eventEmitter);
+
+const orderQueue = new OrderQueue();
+const cashier = new Cashier(eventEmitter);
+const manager = new Manager(eventEmitter);
+const baristar = new Baristar(eventEmitter);
+
+eventEmitter.on('input', input => {
+  cashier.takeOrder(input);
   manager.setOrderExistsTrue();
 });
 
-eventEmitter.on('newOrder', newOrder => {
-  orderQueue.setNewOrderQuantity(newOrder);
-  orderQueue.enqueue(newOrder);
-  manager.orderQueue = orderQueue.getQueue();
-  manager.cumulativeOrder += orderQueue.newOrderQuantity;
+eventEmitter.on('order', order => {
+  orderQueue.work(order);
+  manager.takeOrderQueue(orderQueue);
 });
 
-manager.on('drink', drink => {
-  if (baristar.isAvailable()) {
+eventEmitter.on('makeDrink', drink => {
+  if (baristar.isAvailable) {
     baristar.start(drink);
     orderQueue.dequeue();
-
-    if (orderQueue.isEmpty()) {
+    if (orderQueue.isEmpty) {
       manager.setOrderExistsFalse();
     }
   }
 });
 
-baristar.on('start', drink => {
+eventEmitter.on('startMaking', drink => {
   baristar.printStart(drink);
 });
 
-baristar.on('done', drink => {
+eventEmitter.on('EndMaking', drink => {
   baristar.printDone(drink);
-  manager.doneDrinkCount++;
+  manager.increaseDoneDrinkCount();
 });
 
-manager.on('allDone', () => {
-  manager.printNotification();
+eventEmitter.on('allDone', () => {
+  manager.printAllDone();
 });

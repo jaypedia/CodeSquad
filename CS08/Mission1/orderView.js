@@ -1,8 +1,6 @@
-const EventEmitter = require('events');
-
-class OrderView extends EventEmitter {
-  constructor() {
-    super();
+class OrderView {
+  constructor(eventEmitter) {
+    this.emitter = eventEmitter;
     this.rl = this.setReadLine();
     this.getUserInput();
   }
@@ -19,9 +17,9 @@ class OrderView extends EventEmitter {
   getUserInput() {
     this.rl.prompt();
     this.rl
-      .on('line', line => {
-        this.process(line);
-        this.emit('order', line);
+      .on('line', input => {
+        this.process(input);
+        this.emitter.emit('input', input);
         this.rl.prompt();
       })
       .on('close', () => process.exit());

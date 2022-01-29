@@ -1,13 +1,11 @@
-const DashBoard = require('./dashboard');
-const moment = require('moment');
-
 class Baristar {
-  constructor(eventEmitter) {
+  constructor(eventEmitter, menu) {
     this.emitter = eventEmitter;
-    this.menu = new DashBoard().menu;
+    this.menu = menu;
     this.operationQueue = [];
-    this.max = 2;
+    this.maxDrinkCount = 2;
     this.currentDrink = null;
+    this.moment = require('moment');
   }
 
   get drinkIdx() {
@@ -23,7 +21,7 @@ class Baristar {
   }
 
   get isAvailable() {
-    return this.operationQueue.length < this.max;
+    return this.operationQueue.length < this.maxDrinkCount;
   }
 
   makeDrink() {
@@ -53,13 +51,13 @@ class Baristar {
 
   printStart(drink) {
     console.log(
-      `[☕Baristar] START ${drink} / ${moment().format('h:mm:ss a')}\n`
+      `[☕Baristar] START ${drink} / ${this.moment().format('h:mm:ss a')}\n`
     );
   }
 
   printDone(drink) {
     console.log(
-      `[☕Baristar] DONE ${drink} / ${moment().format('h:mm:ss a')}\n`
+      `[☕Baristar] DONE ${drink} / ${this.moment().format('h:mm:ss a')}\n`
     );
   }
 }

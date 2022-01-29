@@ -1,29 +1,34 @@
 class OrderQueue {
   constructor() {
-    this.queue = [];
-    this.newOrderQuantity = 0;
+    this.list = [];
+    this.orderQuantity = 0;
   }
 
-  setNewOrderQuantity(newOrder) {
-    this.newOrderQuantity = newOrder.quantity;
+  get queue() {
+    return this.list;
   }
 
-  enqueue(newOrder) {
-    for (let i = 0; i < newOrder.quantity; i++) {
-      this.queue.push(newOrder.drink);
+  get isEmpty() {
+    return this.list.length <= 0;
+  }
+
+  setOrderQuantity(order) {
+    this.orderQuantity = order.quantity;
+  }
+
+  enqueue(order) {
+    for (let i = 0; i < order.quantity; i++) {
+      this.list.push(order.drink);
     }
   }
 
   dequeue() {
-    this.queue.shift();
+    this.list.shift();
   }
 
-  getQueue() {
-    return this.queue;
-  }
-
-  isEmpty() {
-    return this.queue.length <= 0;
+  work(order) {
+    this.setOrderQuantity(order);
+    this.enqueue(order);
   }
 }
 

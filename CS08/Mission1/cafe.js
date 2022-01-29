@@ -6,45 +6,55 @@ const Manager = require('./manager');
 const Baristar = require('./baristar');
 const EventEmitter = require('events');
 
-const eventEmitter = new EventEmitter();
-
-new DashBoard().print(); // 왜 constructor에 print 있으면 두 번 프린트될까?
-new OrderView(eventEmitter);
-
-const orderQueue = new OrderQueue();
-const cashier = new Cashier(eventEmitter);
-const manager = new Manager(eventEmitter);
-const baristar = new Baristar(eventEmitter);
-
-eventEmitter.on('input', input => {
-  cashier.takeOrder(input);
-  manager.setOrderExistsTrue();
-});
-
-eventEmitter.on('order', order => {
-  orderQueue.work(order);
-  manager.takeOrderQueue(orderQueue);
-});
-
-eventEmitter.on('makeDrink', drink => {
-  if (baristar.isAvailable) {
-    baristar.start(drink);
-    orderQueue.dequeue();
-    if (orderQueue.isEmpty) {
-      manager.setOrderExistsFalse();
-    }
+class Cafe {
+  constructor() {
+    this.eventEmitter = new EventEmitter();
+    this.dashBoard = new DashBoard();
+    this.orderView = new OrderView(this.eventEmitter);
+    this.orderQueue = new OrderQueue();
+    this.cashier = new Cashier(this.eventEmitter);
+    this.manager = new Manager(this.eventEmitter);
+    this.baristar = new Baristar(this.eventEmitter, this.dashBoard.menu);
   }
-});
 
-eventEmitter.on('startMaking', drink => {
-  baristar.printStart(drink);
-});
+  setEventEmitter() {
+    this.eventEmitter.on('input', input => {
+      this.cashier.takeOrder(input);
+      this.manager.setOrderExistsTrue();
+    });
 
-eventEmitter.on('EndMaking', drink => {
-  baristar.printDone(drink);
-  manager.increaseDoneDrinkCount();
-});
+    this.eventEmitter.on('order', order => {
+      this.orderQueue.work(order);
+      this.manager.takeOrderQueue(this.orderQueue);
+    });
 
-eventEmitter.on('allDone', () => {
-  manager.printAllDone();
-});
+    this.eventEmitter.on('makeDrink', drink => {
+      if (this.baristar.isAvailable) {
+        this.baristar.start(drink);
+        this.orderQueue.dequeue();
+        if (this.orderQueue.isEmpty) {
+          this.manager.setOrderExistsFalse();
+        }
+      }
+    });
+
+    this.eventEmitter.on('startMaking', drink => {
+      this.baristar.printStart(drink);
+    });
+
+    this.eventEmitter.on('EndMaking', drink => {
+      this.baristar.printDone(drink);
+      this.manager.increaseDoneDrinkCount();
+    });
+
+    this.eventEmitter.on('allDone', () => {
+      this.manager.printAllDone();
+    });
+  }
+
+  open() {
+    this.setEventEmitter();
+  }
+}
+
+module.exports = Cafe;

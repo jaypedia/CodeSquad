@@ -29,7 +29,7 @@ class Manager extends EventEmitter {
 
   printOrderQueue() {
     console.log(
-      `[📃Manager] Order Queue : ${this.orderQueue.toString()} / Cumulative Order : ${
+      `\n[📃Manager] Order Queue : ${this.orderQueue.toString()} / Cumulative Order : ${
         this.cumulativeOrder
       }\n`
     );

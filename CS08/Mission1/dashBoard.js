@@ -1,4 +1,8 @@
 class DashBoard {
+  constructor() {
+    this.print();
+  }
+
   get menu() {
     return [
       { id: 1, drink: 'Americano', time: 3 },

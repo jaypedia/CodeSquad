@@ -7,7 +7,6 @@ class Manager {
     this.cumulativeOrder = 0;
     this.doneDrinkCount = 0;
     this.checkQueue();
-    this.checkOrderCount();
   }
 
   get firstDrink() {
@@ -29,13 +28,10 @@ class Manager {
 
   checkQueue() {
     this.intervalId = setInterval(() => {
+      if (this.orderExists === null) return;
       if (this.orderExists) {
         this.printOrderQueue();
         this.notifyBaristar(this.firstDrink);
-      }
-      if (this.orderExists === null) return;
-      if (!this.orderExists) {
-        this.stopCheckQueue();
       }
     }, 1000);
   }
@@ -78,6 +74,11 @@ class Manager {
 
   printAllDone() {
     console.log('\n[📃Manager] ALL DRINKS ARE DONE! ENJOY :)');
+  }
+
+  work(orderQueue) {
+    this.takeOrderQueue(orderQueue);
+    this.checkOrderCount();
   }
 }
 

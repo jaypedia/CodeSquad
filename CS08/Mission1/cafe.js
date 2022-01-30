@@ -25,7 +25,7 @@ class Cafe {
 
     this.eventEmitter.on('order', order => {
       this.orderQueue.work(order);
-      this.manager.takeOrderQueue(this.orderQueue);
+      this.manager.work(this.orderQueue);
     });
 
     this.eventEmitter.on('makeDrink', drink => {

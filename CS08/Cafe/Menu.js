@@ -34,6 +34,10 @@ class Menu {
     this.printMenu();
     this.printInfo();
   }
+
+  has(menuId) {
+    return this.list.find(l => l.id === menuId) ? true : false;
+  }
 }
 
 module.exports = Menu;

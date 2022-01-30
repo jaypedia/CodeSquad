@@ -1,13 +1,13 @@
-class DashBoard {
+class Menu {
   constructor() {
     this.print();
   }
 
-  get menu() {
+  get list() {
     return [
-      { id: 1, drink: 'Americano', time: 3 },
-      { id: 2, drink: 'Cafe Latte', time: 5 },
-      { id: 3, drink: 'Frappuccino', time: 10 },
+      { id: 1, drink: 'Americano', time: 2 },
+      { id: 2, drink: 'Cafe Latte', time: 4 },
+      { id: 3, drink: 'Frappuccino', time: 6 },
     ];
   }
 
@@ -36,4 +36,4 @@ class DashBoard {
   }
 }
 
-module.exports = DashBoard;
+module.exports = Menu;

@@ -1,7 +1,7 @@
 const OrderView = require('./orderView');
 const Cashier = require('./cashier');
 const OrderQueue = require('./orderQueue');
-const DashBoard = require('./dashBoard');
+const Menu = require('./menu');
 const Manager = require('./manager');
 const Baristar = require('./baristar');
 const EventEmitter = require('events');
@@ -9,12 +9,12 @@ const EventEmitter = require('events');
 class Cafe {
   constructor() {
     this.eventEmitter = new EventEmitter();
-    this.dashBoard = new DashBoard();
+    this.menu = new Menu();
     this.orderView = new OrderView(this.eventEmitter);
     this.orderQueue = new OrderQueue();
     this.cashier = new Cashier(this.eventEmitter);
     this.manager = new Manager(this.eventEmitter);
-    this.baristar = new Baristar(this.eventEmitter, this.dashBoard.menu);
+    this.baristar = new Baristar(this.eventEmitter, this.menu.list);
   }
 
   setEventEmitter() {

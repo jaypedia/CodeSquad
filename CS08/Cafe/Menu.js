@@ -17,7 +17,7 @@ class Menu {
 
   printMenu() {
     console.log('----------MENU----------');
-    this.menu.forEach(m => {
+    this.list.forEach(m => {
       console.log(`${m.id}. ${m.drink} (${m.time}sec)`);
     });
     console.log('------------------------');

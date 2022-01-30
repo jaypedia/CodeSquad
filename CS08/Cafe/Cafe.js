@@ -1,9 +1,9 @@
-const OrderView = require('./orderView');
-const Cashier = require('./cashier');
-const OrderQueue = require('./orderQueue');
-const Menu = require('./menu');
-const Manager = require('./manager');
-const Baristar = require('./baristar');
+const OrderView = require('./OrderView');
+const Cashier = require('./Cashier');
+const OrderQueue = require('./OrderQueue');
+const Menu = require('./Menu');
+const Manager = require('./Manager');
+const Baristar = require('./Baristar');
 const EventEmitter = require('events');
 
 class Cafe {

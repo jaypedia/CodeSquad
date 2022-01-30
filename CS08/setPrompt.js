@@ -16,14 +16,14 @@ stdin.on('data', function (key) {
     case '\u001B\u005B\u0042': //down
     case '\u001B\u005B\u0044': //left
       break;
-    case '\u0003':
+    case '\u0003': // control c 강제종료 막기
       process.exit();
       break;
-    case '\u000d':
-      //RunCommands(current)
+    case '\u000d': // 엔터
+      //RunCommands(current) -> current 처리 로직
       current = '';
-      console.log('\b');
-      stdout.write(prompt);
+      console.log('\b'); // 백스페이스
+      stdout.write(prompt); // 수작업이다.
       break;
     case '\u007f':
       stdout.write('\r\x1b[K');

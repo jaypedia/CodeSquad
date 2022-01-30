@@ -1,11 +1,13 @@
 class Manager {
   constructor(eventEmitter) {
     this.emitter = eventEmitter;
-    this.orderExists = null;
-    this.intervalId = null;
     this.orderQueue = null;
+    this.orderExists = null;
+    this.timeoutId = null;
+    this.intervalId = null;
     this.cumulativeOrder = 0;
     this.doneDrinkCount = 0;
+    this.waitingTimeForCustomer = 3000;
     this.checkQueue();
   }
 
@@ -72,13 +74,27 @@ class Manager {
     }, 1000);
   }
 
+  work(orderQueue) {
+    this.takeOrderQueue(orderQueue);
+    this.checkOrderCount();
+  }
+
+  decideToCloseCafe() {
+    this.timeoutId = setTimeout(() => {
+      this.emitter.emit('close');
+    }, this.waitingTimeForCustomer);
+  }
+
+  keepCafeOpen() {
+    clearTimeout(this.timeoutId);
+  }
+
   printAllDone() {
     console.log('\n[📃Manager] ALL DRINKS ARE DONE! ENJOY :)');
   }
 
-  work(orderQueue) {
-    this.takeOrderQueue(orderQueue);
-    this.checkOrderCount();
+  printClose() {
+    console.log('\n[📃Manager] WE ARE CLOSED! THANK YOU.');
   }
 }
 

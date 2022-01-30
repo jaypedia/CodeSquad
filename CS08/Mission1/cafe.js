@@ -21,6 +21,7 @@ class Cafe {
     this.eventEmitter.on('input', input => {
       this.cashier.takeOrder(input);
       this.manager.setOrderExistsTrue();
+      this.manager.keepCafeOpen();
     });
 
     this.eventEmitter.on('order', order => {
@@ -49,11 +50,21 @@ class Cafe {
 
     this.eventEmitter.on('allDone', () => {
       this.manager.printAllDone();
+      this.manager.decideToCloseCafe();
+    });
+
+    this.eventEmitter.on('close', () => {
+      this.close();
     });
   }
 
   open() {
     this.setEventEmitter();
+  }
+
+  close() {
+    this.manager.printClose();
+    this.orderView.stop();
   }
 }
 

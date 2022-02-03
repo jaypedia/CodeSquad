@@ -14,22 +14,27 @@ class Cashier {
   }
 
   sendToOrderQueue() {
-    this.emitter.emit('order', this.order);
-    // Mission 2 : this.orderData를 보냄
+    // this.emitter.emit('order', this.order); // Mission 1
+    this.emitter.emit('order', this.orderData); // Mission 2
   }
 
   parseOrder(order) {
     // Mission 1
-    const [drink, quantity] = order.split(':').map(Number);
-    this.order = { drink, quantity };
+    // const [drink, quantity] = order.split(':').map(Number);
+    // this.order = { drink, quantity };
 
-    // const [customer, ...orders] = order.split(', ');
-    // this.orderData.customer = customer;
+    // Mission 2
+    const [customer, ...orders] = order.split(', ');
+    this.setCustomer(customer);
 
-    // orders.map(v => {
-    //   const [drinkId, quantity] = v.split(':').map(Number);
-    //   this.orderData.orderDetail.push({ drinkId, quantity });
-    // });
+    orders.map(v => {
+      const [drinkId, quantity] = v.split(':').map(Number);
+      this.orderData.orderDetail.push({ drinkId, quantity });
+    });
+  }
+
+  setCustomer(customer) {
+    this.orderData.customer = customer;
   }
 
   parseAndSaveOrder(order) {
@@ -56,7 +61,8 @@ class Cashier {
 
   saveOrderData(data) {
     this.orderDatabase.push(data);
-    // console.log(this.orderDatabase);
+    console.log(this.orderDatabase);
+    console.log(this.orderDatabase[0].orderDetail);
   }
 
   // validateOrder() {} or isValid

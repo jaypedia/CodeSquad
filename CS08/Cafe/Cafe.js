@@ -4,17 +4,32 @@ const OrderQueue = require('./OrderQueue');
 const Menu = require('./Menu');
 const Manager = require('./Manager');
 const Baristar = require('./Baristar');
+const OrderDB = require('./OrderDB');
 const EventEmitter = require('events');
 
 class Cafe {
   constructor() {
     this.eventEmitter = new EventEmitter();
     this.menu = new Menu();
-    this.orderView = new OrderView(this.eventEmitter);
+    this.orderView;
     this.orderQueue = new OrderQueue();
-    this.cashier = new Cashier(this.eventEmitter);
-    this.manager = new Manager(this.eventEmitter);
-    this.baristar = new Baristar(this.eventEmitter, this.menu.list);
+    this.orderDB = new OrderDB();
+    this.cashier = new Cashier(this.eventEmitter, this.orderDB);
+    this.manager = new Manager(this.eventEmitter, this.orderDB);
+    this.baristar = new Baristar(this.eventEmitter, this.menu.list); // mission1
+    this.baristarArr = this.employBaristar();
+  }
+
+  get baristarNum() {
+    return Math.floor(Math.random() * 4) + 2; // Minimum : 2, Maximum : 5
+  }
+
+  employBaristar() {
+    const baristarArr = [];
+    for (let i = 0; i < this.baristarNum; i++) {
+      baristarArr.push(new Baristar(this.eventEmitter, this.menu.list));
+    }
+    return baristarArr;
   }
 
   setEventEmitter() {
@@ -58,7 +73,15 @@ class Cafe {
     });
   }
 
+  printGreeting() {
+    console.log('\nWELCOME TO ASYNC CAFE!');
+    console.log(`\nWe have [ ${this.baristarNum} ] baristars today.\n`);
+  }
+
   open() {
+    this.printGreeting();
+    this.menu.print();
+    this.orderView = new OrderView(this.eventEmitter);
     this.setEventEmitter();
   }
 

@@ -13,13 +13,20 @@ class OrderQueue {
   }
 
   setOrderQuantity(order) {
-    this.orderQuantity = order.quantity;
+    this.orderQuantity = order.totalOrderCount;
   }
 
   enqueue(order) {
-    for (let i = 0; i < order.quantity; i++) {
-      this.list.push(order.drink);
-    }
+    // for (let i = 0; i < order.quantity; i++) {
+    //   this.list.push(order.drink);
+    // }
+
+    // Mission 2
+    order.orderDetail.forEach(v => {
+      for (let i = 0; i < v.quantity; i++) {
+        this.list.push(`${order.customer}-${v.drinkId}`);
+      }
+    });
   }
 
   dequeue() {

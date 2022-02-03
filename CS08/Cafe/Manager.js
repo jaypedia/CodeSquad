@@ -1,5 +1,6 @@
 class Manager {
-  constructor(eventEmitter) {
+  constructor(eventEmitter, orderDB) {
+    this.orderDB = orderDB; // 주문 완료된 시간 기록하기
     this.emitter = eventEmitter;
     this.orderQueue = null;
     this.orderExists = null;
@@ -9,10 +10,16 @@ class Manager {
     this.doneDrinkCount = 0;
     this.waitingTimeForCustomer = 3000;
     this.checkQueue();
+    this.customerName = null;
   }
 
   get firstDrink() {
-    return this.orderQueue[0];
+    this.setCustomerName();
+    return Number(this.orderQueue[0].slice(-1));
+  }
+
+  setCustomerName() {
+    this.customerName = this.orderQueue[0].split('-')[0];
   }
 
   increaseDoneDrinkCount() {
@@ -34,6 +41,7 @@ class Manager {
       if (this.orderExists) {
         this.printOrderQueue();
         this.notifyBaristar(this.firstDrink);
+        // this.orderDB.print(); // test
       }
     }, 1000);
   }
@@ -90,7 +98,9 @@ class Manager {
   }
 
   printAllDone() {
-    console.log('\n[📃Manager] ALL DRINKS ARE DONE! ENJOY :)');
+    console.log(
+      `\n[📃Manager] ${this.customerName}, ALL DRINKS ARE DONE! ENJOY :)`
+    );
   }
 
   printClose() {

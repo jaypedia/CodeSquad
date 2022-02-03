@@ -1,18 +1,10 @@
 class Menu {
-  constructor() {
-    this.print();
-  }
-
   get list() {
     return [
       { id: 1, drink: 'Americano', time: 2 },
       { id: 2, drink: 'Cafe Latte', time: 4 },
       { id: 3, drink: 'Frappuccino', time: 6 },
     ];
-  }
-
-  printGreeting() {
-    console.log('\nWELCOME TO ASYNC CAFE!\n');
   }
 
   printMenu() {
@@ -24,13 +16,13 @@ class Menu {
   }
 
   printInfo() {
+    console.log('\nEnter your name, drinks and quantity.');
     console.log(
-      '\nEnter the drink and quantity. (Example - Two cups of Americano ⇒ 1:2)\n'
+      '(Example - Millie, 2 Americano, 3 Frappuccino ⇒ Millie, 1:2, 3:3)\n'
     );
   }
 
   print() {
-    this.printGreeting();
     this.printMenu();
     this.printInfo();
   }

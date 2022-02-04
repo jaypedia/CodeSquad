@@ -7,7 +7,7 @@ const printExecutionSequence = () => {
   let log = '';
   log = logArr
     .map((_, i) => `${logArr[i]} ${logRes[i]}`)
-    .reduce((a, b) => `${a} / ${b}`, log); // 끝에 log 무엇? reduce 아직 안 익숙
+    .reduce((a, b) => `${a} / ${b}`, log); // log : initial value
   console.log(log);
 };
 

@@ -48,7 +48,30 @@ export default class ListComponent {
     $aside.appendChild($myLists);
     $aside.appendChild($manageList);
 
+    $newListForm.addEventListener('submit', addListHandler);
+    $newListBtn.addEventListener('click', addListHandler);
+
     this.$target.appendChild($aside);
+
+    function addListHandler(e) {
+      e.preventDefault();
+      const newListName = $newListInput.value;
+      if (newListName === null || newListName === '') return;
+      const list = createList(newListName);
+      $newListInput.value = '';
+      listStorage.getAllLists().push(list);
+      listStorage.save();
+      // this.renderList();
+      $newListInput.focus();
+    }
+  }
+
+  createList(newListName) {
+    return {
+      id: Date.now(),
+      name: newListName,
+      tasks: [],
+    };
   }
 
   renderList() {

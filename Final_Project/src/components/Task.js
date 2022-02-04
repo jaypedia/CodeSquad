@@ -1,6 +1,6 @@
 import { listStorage } from '../utils/LocalStorage.js';
-import clearElement from '../utils/ClearElement.js';
 import { CLASSNAME } from '../utils/Classname.js';
+import clearElement from '../utils/ClearElement.js';
 
 export default class TaskComponent {
   // $target : <div class="my-todo-list"></div>
@@ -12,8 +12,6 @@ export default class TaskComponent {
     this.renderTaskPercent = this.renderTaskPercent(this.selectedList);
     this.renderTask = this.renderTask(this.selectedList);
   }
-
-  initTask() {}
 
   createTaskContainer() {
     const $main = document.createElement('main');
@@ -98,9 +96,15 @@ export default class TaskComponent {
     const minute = today.getMinutes().toString().padStart(2, '0');
     const second = today.getSeconds().toString().padStart(2, '0');
     $time.innerHTML = `${hour}:${minute}:${second}`;
+    console.log('dis');
+  }
+
+  timeInterval() {
+    setInterval(this.displayDateTime, 1000);
   }
 
   renderTaskPercent(selectedList) {
+    if (!selectedList) return;
     const $infoTaskCount = document.querySelector('.info__task-count');
     const taskCount = selectedList.tasks.length;
     if (!taskCount) {
@@ -117,6 +121,7 @@ export default class TaskComponent {
   }
 
   renderTask(selectedList) {
+    if (!selectedList) return;
     selectedList.tasks.forEach(task => {
       const $todoList = document.querySelector('.todo-list');
       const $task = document.createElement('div');

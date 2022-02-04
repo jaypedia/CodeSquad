@@ -18,7 +18,15 @@ const listStorage = {
     const allLists = listStorage.getAllLists();
     const selectedListId = listStorage.getSelectedListId();
     const selectedList = allLists.filter(list => list.id === +selectedListId);
-    return selectedList;
+    return selectedList[0];
+  },
+
+  save: () => {
+    // 중복
+    const allLists = listStorage.getAllLists();
+    const selectedListId = listStorage.getSelectedListId();
+    storage.setItem(LIST_KEY, allLists);
+    storage.setItem(SELECTED_LIST_ID_KEY, selectedListId);
   },
 };
 

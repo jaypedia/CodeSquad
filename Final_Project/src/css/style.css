@@ -239,8 +239,8 @@ main .info .info__date .date {
   font-weight: var(--weight-bold);
 }
 
-main .info .task-count {
-  font-size: var(--font-micro);
+main .info__task-count {
+  font-size: var(--font-small);
   color: var(--color-dark-purple);
 }
 
@@ -454,7 +454,7 @@ input:focus::placeholder {
   opacity: 0;
 }
 
-.todo-container {
+.todo-inner-container {
   display: flex;
   height: 100%;
   flex-direction: column;

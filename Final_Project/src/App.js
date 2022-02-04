@@ -24,4 +24,9 @@ export default class App {
 
     return $myTodoList;
   }
+
+  init() {
+    console.log('init');
+    this.TaskComponent.timeInterval();
+  }
 }
